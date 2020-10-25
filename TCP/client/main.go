@@ -11,5 +11,7 @@ func main() {
 		panic(errDial)
 	}
 	defer conn.Close()
-	unpack.Encode(conn, "hello world 0!")
+	for i := 0; i < 100; i++ {
+		unpack.Encode(conn, "hello world 0!")
+	}
 }
