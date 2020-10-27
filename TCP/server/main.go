@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"go-gateway/TCP/unpack"
 	"log"
 	"net"
 )
@@ -12,7 +11,9 @@ func main() {
 	// listen ip:port
 	listener, err := net.Listen("tcp", "localhost:9090")
 	if err != nil {
-		panic(err)
+		log.Printf("listen failed, err : %v \n", err)
+		return
+		// panic(err)
 	}
 
 	// accept client request
@@ -23,21 +24,29 @@ func main() {
 			log.Printf("accept fail,err : %v\n", err)
 			continue
 		}
-
+		// closeMgs := make(chan bool)
 		go process(conn)
+		// if <-closeMgs {
+		// 	log.Println("server exit!")
+		// 	break
+		// }
 	}
 }
 
 func process(conn net.Conn) {
-	defer conn.Close()
+	// defer conn.Close()
 
 	for {
-		bt, err := unpack.Decode(conn)
+		// bt, err := unpack.Decode(conn)
+		buf := make([]byte, 128)
+		_, err := conn.Read(buf)
 		if err != nil {
 			log.Printf("read from connect fail, err : %v\n", err)
 			break
 		}
-		str := string(bt)
+
+		str := string(buf)
+
 		fmt.Printf("receive from client, data : %v\n", str)
 	}
 }
