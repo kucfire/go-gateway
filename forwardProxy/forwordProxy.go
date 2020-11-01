@@ -22,8 +22,8 @@ func (p *Pxy) ServeHTTP(r http.ResponseWriter, q *http.Request) {
 	if clientIP, _, err := net.SplitHostPort(q.RemoteAddr); err == nil {
 		if prior, ok := outReq.Header["X-Forward-For"]; ok {
 			clientIP = strings.Join(prior, ",") + "," + clientIP
-			fmt.Println(clientIP)
 		}
+		fmt.Println(clientIP)
 		outReq.Header.Set("X-Forwarded-For", clientIP)
 	}
 
