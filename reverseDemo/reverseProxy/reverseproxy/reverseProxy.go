@@ -34,13 +34,13 @@ var (
 )
 
 func main() {
-	rs1 := "127.0.0.1:2003"
+	rs1 := "http://127.0.0.1:2003"
 	url1, err1 := url.Parse(rs1)
 	if err1 != nil {
 		panic(err1)
 	}
 
-	rs2 := "127.0.0.1:2004"
+	rs2 := "http://127.0.0.1:2004"
 	url2, err2 := url.Parse(rs2)
 	if err2 != nil {
 		panic(err2)
