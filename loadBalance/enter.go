@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"compress/gzip"
+	"fmt"
 	"go-gateway/loadBalance/config"
 	"go-gateway/loadBalance/factory"
 	"go-gateway/loadBalance/realServer"
@@ -43,10 +44,10 @@ func main() {
 	startRealServer("127.0.0.1:2004")
 
 	search := factory.LoadBalanceFactory(factory.LbConsistentHash)
-	if err1 := search.Add("127.0.0.1:2003", "10"); err1 != nil {
+	if err1 := search.Add("http://127.0.0.1:2003/base", "10"); err1 != nil {
 		log.Println(err1)
 	}
-	if err2 := search.Add("127.0.0.1:2004", "15"); err2 != nil {
+	if err2 := search.Add("http://127.0.0.1:2004/base", "15"); err2 != nil {
 		log.Println(err2)
 	}
 
@@ -60,6 +61,7 @@ func main() {
 	<-quit
 }
 
+// 开启底层服务器
 func startRealServer(addr string) {
 	rs := &realServer.RealServer{
 		Addr: addr,
@@ -72,17 +74,14 @@ func NewMultipleHostsReverseProxy(targets config.LoadBalance) *httputil.ReverseP
 	// 请求协议者
 	director := func(req *http.Request) {
 
-		// url reWrite
-		// 127.0.0.1:2002/dir/abc ==> 127.0.0.1:2003/base/abc need to relize this
-		// first : 127.0.0.1:2002/dir/abc ==> 127.0.0.1:2002/abc
-		// second : 127.0.0.1:2002/abc ==> 127.0.0.1:2003/abc
 		nextAddr, errGet := targets.Get(req.RemoteAddr)
 		if errGet != nil {
-			log.Fatal("get next addr fail")
+			log.Fatal("get next addr fail" + errGet.Error())
 		}
 
 		target, errParse := url.Parse(nextAddr)
 		if errParse != nil {
+			fmt.Println(nextAddr)
 			log.Fatal(errParse)
 		}
 
@@ -91,7 +90,7 @@ func NewMultipleHostsReverseProxy(targets config.LoadBalance) *httputil.ReverseP
 		req.URL.Host = target.Host
 
 		// url地址重写：重写前：/aa 重写后：/base/aa
-		req.URL.Path = singleJoiningSlash(target.Path, req.URL.Path)
+		req.URL.Path = singleJoiningSlash(target.Path, ""+req.URL.Path)
 		if targetQuery == "" || req.URL.RawQuery == "" {
 			req.URL.RawQuery = targetQuery + req.URL.RawQuery
 		} else {

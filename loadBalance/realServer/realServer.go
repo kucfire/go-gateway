@@ -42,7 +42,7 @@ func (rs *RealServer) helloHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *RealServer) errorHandle(w http.ResponseWriter, r *http.Request) {
-	upath := "error handler"
+	upath := fmt.Sprintf("http://%s%s\n", rs.Addr, r.URL.Path) + "error handler\n"
 	w.WriteHeader(500)
 	io.WriteString(w, upath)
 }

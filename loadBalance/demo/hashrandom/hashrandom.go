@@ -48,7 +48,7 @@ func NewConsistentHashmapBalance(replicas int, fn Hash) *ConsistentHashmapBalanc
 	return m
 }
 
-func (r ConsistentHashmapBalance) Add(key ...string) error {
+func (r *ConsistentHashmapBalance) Add(key ...string) error {
 	if len(key) == 0 {
 		return errors.New("key need 1 at least")
 	}
@@ -68,7 +68,7 @@ func (r ConsistentHashmapBalance) Add(key ...string) error {
 	return nil
 }
 
-func (r ConsistentHashmapBalance) Get(key string) (string, error) {
+func (r *ConsistentHashmapBalance) Get(key string) (string, error) {
 	// 控制判断
 	if r.IsEmpty() {
 		return "", errors.New("hash node is empty")
@@ -92,13 +92,13 @@ func (r ConsistentHashmapBalance) Get(key string) (string, error) {
 	r.mux.RLock()
 	defer r.mux.RUnlock()
 
-	return r.hashMap[r.keys[hash]], nil
+	return r.hashMap[r.keys[idx]], nil
 }
 
-func (r ConsistentHashmapBalance) IsEmpty() bool {
+func (r *ConsistentHashmapBalance) IsEmpty() bool {
 	return len(r.keys) == 0
 }
 
-func (r ConsistentHashmapBalance) Next() string {
+func (r *ConsistentHashmapBalance) Next() string {
 	return ""
 }
