@@ -81,7 +81,10 @@ func (c *ConsistentHashMapBalance) Get(key string) (string, error) {
 	hash := c.hash([]byte(key))
 
 	// 通过二分查找获取最后节点, 第一个c.keys的值大于key的hash值就是目标节点
-	idx := sort.Search(len(c.keys), func(i int) bool { return c.keys[i] >= hash })
+	idx := sort.Search(len(c.keys),
+		func(i int) bool {
+			return c.keys[i] >= hash
+		})
 
 	if idx == len(c.keys) {
 		idx = 0
