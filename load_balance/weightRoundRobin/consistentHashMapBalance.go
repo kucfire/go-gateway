@@ -1,4 +1,4 @@
-package consistentHashMapBalance
+package weightRoundRobin
 
 import (
 	"errors"
