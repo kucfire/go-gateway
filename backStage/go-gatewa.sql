@@ -4,9 +4,9 @@
     server edition ： 5.7.32
 */
 
-----------------------------------------------------------------------------------|
-----------------------------------------------------------------------------------|
-----------------------------------set database------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------set database------------------------------------|
 /*
     创建数据库(go_gateway)
 */
@@ -18,7 +18,7 @@ default collate utf8_general_ci;
 /* !SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') 
     FROM information_schema.tables 
     WHERE table_schema = 'go_gateway' 检索出所有可以删除的表的语句 */
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 
 /* 影响AUTO_INCREMETNT列的处理，
 一般情况下你可以向该列插入NULL或0生成下一个序列号。
@@ -37,13 +37,13 @@ START TRANSACTION;
 /* 修改当前会话时区 */
 SET time_zone=`+00:00`; 
 
------------------------------------block end--------------------------------------|
-----------------------------------------------------------------------------------|
-----------------------------------------------------------------------------------|
+-- ---------------------------------block end--------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
 
-----------------------------------------------------------------------------------|
-----------------------------------------------------------------------------------|
------------------------------------set tables-------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- ---------------------------------set tables-------------------------------------|
 -- 
 -- Database : `go_gateway`
 --
@@ -79,12 +79,12 @@ delete from go_gateway.gateway_admin 清除表数据
 select * from go_gateway.gateway_admin 查询数据是否成功添加
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `gateway_app`
 --
 
-CREATE TABLE go_gateway.gateway_app (
+CREATE TABLE if not exists go_gateway.gateway_app (
     /* bigint 一个略大整数，-2^63 (-9223372036854775808) 到 2^63-1 (9223372036854775807) 的整型数据。【远大于21亿左右】
        bigint(20)	存储数字：666	存储空间：8	实际显示宽度：20	实际显示：00000000000000000666*/
     /* unsigned无符号化 */
@@ -120,12 +120,12 @@ values (31, 'app_id_a', '租户A', '449441eb5e72dca9c42a12f3924ea3a2', 'white_ip
     select * from go_gateway.gateway_app 查询测试数据是否添加成功
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
--- 表的结构 `gateway_service_access_controls`
+-- 表的结构 `gateway_service_access_control`
 --
 
-create table go_gateway.gateway_service_access_controls (
+create table if not exists go_gateway.gateway_service_access_control (
     `id`                    bigint(20)          not null                comment '自增主键',
     `service_id`            bigint(20)          not null default '0'    comment '服务id',
     `open_auth`             tinyint(4)          not null default '0'    comment '是否开启权限 1=开启',
@@ -136,13 +136,13 @@ create table go_gateway.gateway_service_access_controls (
     `service_flow_limit`    int(20)             not null default '0'    comment '服务器限流'
 )engine=InnoDB default charset=utf8 comment='网关权限控制表';
 
-/* ! drop table if exists go_gateway.gateway_service_access_controls */
+/* ! drop table if exists go_gateway.gateway_service_access_control */
 
 --
 -- 向go_gateway.gateway_service_access_controls中添加测试数据
 --
 
-insert into go_gateway.gateway_service_access_controls
+insert into go_gateway.gateway_service_access_control
 (id,service_id,open_auth,black_list,white_list,white_host_home,clientip_flow_limit,service_flow_limit)
 values
 (162, 35, 1, '', '', '', 0, 0),
@@ -172,16 +172,16 @@ values
 (189, 61, 0, '', '', '', 0, 0);
 
 /*
-    select * from go_gateway.gateway_service_access_controls 查询测试数据是否添加成功
-    delete from go_gateway.gateway_service_access_controls 删除测试数据
+    select * from go_gateway.gateway_service_access_control 查询测试数据是否添加成功
+    delete from go_gateway.gateway_service_access_control 删除测试数据
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `go_gateway.gateway_service_grpc_rule`
 --
 
-create table go_gateway.gateway_service_grpc_rule (
+create table if not exists go_gateway.gateway_service_grpc_rule (
     `id`                bigint(20)      not null                comment '自增主键',
     `service_id`        bigint(20)      not null default '0'    comment '服务id',
     `port`              int(5)          not null default '0'    comment '端口',
@@ -204,12 +204,12 @@ values
     delete from go_gateway.gateway_service_grpc_rule 删除测试数据
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `go_gateway.gateway_service_http_rule`
 --
 
-create table go_gateway.gateway_service_http_rule (
+create table if not exists go_gateway.gateway_service_http_rule (
     `id`             bigint(20)     not null                    comment '自增主键',
     `service_id`     bigint(20)     not null                    comment '服务id',
     `rule_type`      tinyint(4)     not null default '0'        comment '匹配类型 0=url前缀url_prefix 1=域名domain',
@@ -249,12 +249,12 @@ values
     delete from go_gateway.gateway_service_http_rule   删除测试数据
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `go_gateway.gateway_service_info`
 --
 
-create table go_gateway.gateway_service_info (
+create table if not exists go_gateway.gateway_service_info (
     `id`                bigint(20)      unsigned     not null comment '自增主键',
     `load_type`         tinyint(4)                   not null default '0'                   comment '负载类型 0=http 1=tcp 2=grpc',
     `service_name`      varchar(255)                 not null default ''                    comment '服务名称 6-128 数字字母下划线',
@@ -304,12 +304,12 @@ values
     delete from go_gateway.gateway_service_info
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `go_gateway.gateway_service_load_balance`
 --
 
-create table go_gateway.gateway_service_load_balance (
+create table if not exists go_gateway.gateway_service_load_balance (
     `id`                        bigint(20)      not null                comment '自增主键',
     `service_id`                bigint(20)      not null default '0'    comment '服务id',
     `check_method`              tinyint(20)     not null default '0'    comment '检查方法 0=tcpchk，检测端口是否握手成功',
@@ -365,12 +365,12 @@ values
     delete from go_gateway.gateway_service_load_balance 删除测试数据
 */
 
----------------------------------------------------------------------
+-- -------------------------------------------------------------------
 --
 -- 表的结构 `go_gateway.gateway_service_tcp_rule`
 --
 
-create table go_gateway.gateway_service_tcp_rule (
+create table if not exists go_gateway.gateway_service_tcp_rule (
     `id` bigint(20) not null comment '自增主键',
     `service` bigint(20) not null comment '服务id',
     `port` int(5) not null default '0' comment '端口号'
@@ -399,11 +399,133 @@ values
     delete from go_gateway.gateway_service_tcp_rule 删除测试数据
 */
 
------------------------------------block end--------------------------------------|
-----------------------------------------------------------------------------------|
-----------------------------------------------------------------------------------|
+-- ---------------------------------block end--------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
 
-----------------------------------------------------------------------------------|
-----------------------------------------------------------------------------------|
------------------------------------set indexes------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- ---------------------------------set indexes------------------------------------|
+
+--
+--  indexes for dumped tables
+--
+
+--
+-- indexes for table gateway_admin
+--
+alter table gateway_admin
+add primary key (`id`);
+
+--
+-- indexes for table gateway_app
+--
+alter table gateway_app
+add primary key (`id`);
+
+--
+-- index for table gateway_service_access_control
+--
+alter table gateway_service_access_control
+add primary key (`id`);
+
+--
+-- indexes for table gateway_service_grpc_rule
+--
+alter table gateway_service_grpc_rule
+add primary key (`id`);
+
+-- 
+-- indexes for table gateway_service_http_rule
+--
+alter table gateway_service_http_rule
+add primary key (`id`);
+
+--
+-- indexes for table gateway_service_info
+--
+alter table gateway_service_info
+add primary key (`id`);
+
+--
+-- indexes for table gateway_service_load_balance
+--
+alter table gateway_service_load_balance
+add primary key (`id`);
+
+--
+-- indexes for table gateway_service_tcp_rule
+--
+alter table gateway_service_tcp_rule
+add primary key (`id`);
+
+--
+-- 在导出的表使用auto_increment
+--
+
+/* 
+    auto_increment 指定一个列拥有自增属性
+    具有auto_increment属性的数列应该是一个正数数列，如果把该数列声明为unsigned，这样序列的标号可增加一倍。比如tinyint数据列的最大编号是127，如果加上UNSIGNED，那么最大编号变为255
+    auto_increment 数据列必须有唯一索引，以避免序号重复，必须具备not null属性
+    如果把一个NULL插入到一个AUTO_INCREMENT数据列里去，MySQL将自动生成下一个序列编号。编号从1开始，并1为基数递增
+    把0插入auto_increment数据列的效果与插入null值一样，但不建议这样做，而且在开头已经设置了SQL_MODE = `NO_AUTO_VALUE_ON_ZERO`，不允许插入0值
+*/
+
+--
+-- 使用表auto_increment gateway_admin
+--
+alter table gateway_admin
+modify `id` bigint(20) not null auto_increment comment '自增id', auto_increment=2;
+
+--
+-- 使用表auto_increment gateway_app
+--
+alter table gateway_app
+modify `id` bigint(20) not null auto_increment comment '自增id', auto_increment=35;
+
+--
+-- 使用表auto_increment gateway_service_access_control
+--
+alter table gateway_service_access_control
+modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=190;
+
+--
+-- 使用表auto_increment gateway_service_grpc_rule
+--
+alter table gateway_service_grpc_rule
+modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=174;
+
+--
+-- 使用表auto_increment gateway_service_http_rule
+--
+alter table gateway_service_http_rule
+modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=181;
+
+--
+-- 使用表auto_increment gateway_service_info
+--
+alter table gateway_service_info
+modify `id` bigint(20) unsigned not null auto_increment comment '自增主键', auto_increment=62;
+
+--
+-- 使用表auto_increment gateway_service_load_balance
+--
+alter table gateway_service_load_balance
+modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=190;
+
+--
+-- 使用表auto_increment gateway_service_tcp_rule
+--
+alter table gateway_service_tcp_rule
+modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=182;
+
+-- ---------------------------------block end--------------------------------------|
+-- --------------------------------------------------------------------------------|
+-- --------------------------------------------------------------------------------|
+
+/* 提交事务 */
+commit;
+
+
+
 
