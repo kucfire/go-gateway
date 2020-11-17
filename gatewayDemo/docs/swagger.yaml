@@ -26,7 +26,24 @@ definitions:
     type: object
 info:
   contact: {}
+  license: {}
 paths:
+  /admin_info/info:
+    get:
+      consumes:
+      - application/json
+      description: 管理员信息
+      operationId: /admin_info/info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 管理员信息
+      tags:
+      - 管理员接口
   /admin_login/login:
     post:
       consumes:
@@ -46,13 +63,24 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AdminLoginInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 管理员登录
+      tags:
+      - 管理员接口
+  /admin_login/loginout:
+    get:
+      consumes:
+      - application/json
+      description: 管理员退出
+      operationId: /admin_login/loginout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 管理员退出
       tags:
       - 管理员接口
 swagger: "2.0"

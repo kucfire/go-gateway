@@ -1,9 +1,34 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "contact": {},
+        "license": {}
     },
     "paths": {
+        "/admin_info/info": {
+            "get": {
+                "description": "管理员信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员接口"
+                ],
+                "summary": "管理员信息",
+                "operationId": "/admin_info/info",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/middleware.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin_login/login": {
             "post": {
                 "description": "管理员登录",
@@ -33,19 +58,31 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/middleware.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.AdminLoginInput"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/middleware.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin_login/loginout": {
+            "get": {
+                "description": "管理员退出",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员接口"
+                ],
+                "summary": "管理员退出",
+                "operationId": "/admin_login/loginout",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/middleware.Response"
                         }
                     }
                 }
