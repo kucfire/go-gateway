@@ -62,9 +62,8 @@ func (admininfo *AdminController) AdminInfo(c *gin.Context) {
 // @ID /admin_info/changepwd
 // @Accept  json
 // @Produce  json
-// @Param body body dto.ChangePWDInput true "body"
-// @Success 200 {object} middleware.Response{data=dto.ChangePWDInput} "success"
-// @Router /admin_info/changepwd [post]
+// @Success 200 {object} middleware.Response{data=string} "success"
+// @Router /admin_info/info [post]
 func (admininfo *AdminController) ChangePWD(c *gin.Context) {
 	params := &dto.ChangePWDInput{}
 	if err := params.BindingValidParams(c); err != nil {
@@ -113,8 +112,7 @@ func (admininfo *AdminController) ChangePWD(c *gin.Context) {
 
 	// 修改密码
 	saltPassword := public.GenSaltPassword(adminInfo.Salt, params.Password)
-	adminInfo.Password = saltPassword
 	adminInfo.Save(c, tx)
 
-	middleware.ResponseSuccess(c, "Password changed successful!")
+	middleware.ResponseSuccess(c, "")
 }

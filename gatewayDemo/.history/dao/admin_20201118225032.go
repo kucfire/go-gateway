@@ -49,8 +49,3 @@ func (ad *AdminInfo) LoginCheck(c *gin.Context, tx *gorm.DB, param *dto.AdminLog
 	}
 	return admin, nil
 }
-
-func (ad *AdminInfo) Save(c *gin.Context, tx *gorm.DB) error {
-	// 将ad保存进数据库
-	return tx.SetCtx(public.GetGinTraceContext(c)).Save(ad).Error
-}

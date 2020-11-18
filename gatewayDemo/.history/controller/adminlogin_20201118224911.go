@@ -79,7 +79,7 @@ func (adminligin *AdminLoginController) AdminLogin(c *gin.Context) {
 		string(sessBts))
 	sess.Save()
 
-	out := &dto.AdminLoginOutput{Token: admin.UserName}
+	out := &dto.AdminLoginoutput{Token: admin.UserName}
 	middleware.ResponseSuccess(c, out)
 
 }

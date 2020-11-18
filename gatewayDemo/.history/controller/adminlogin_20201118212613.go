@@ -20,7 +20,7 @@ func AdminLoginRegister(group *gin.RouterGroup) {
 	// login interface
 	group.POST("/login", adminLogin.AdminLogin)
 	// login out interface
-	group.GET("/logout", adminLogin.AdminLogout)
+	group.GET("/loginout", adminLogin.AdminLoginOut)
 
 }
 
@@ -84,16 +84,16 @@ func (adminligin *AdminLoginController) AdminLogin(c *gin.Context) {
 
 }
 
-// AdminLogout godoc
+// AdminLoginOut godoc
 // @Summary 管理员退出
 // @Description 管理员退出
 // @Tags 管理员接口
-// @ID /admin_login/logout
+// @ID /admin_login/loginout
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} middleware.Response{data=dto.AdminLoginInput} "success"
-// @Router /admin_login/logout [get]
-func (adminligin *AdminLoginController) AdminLogout(c *gin.Context) {
+// @Router /admin_login/loginout [get]
+func (adminligin *AdminLoginController) AdminLoginOut(c *gin.Context) {
 
 	sess := sessions.Default(c)
 	sess.Delete(public.AdminSessionInfoKey)
@@ -101,7 +101,7 @@ func (adminligin *AdminLoginController) AdminLogout(c *gin.Context) {
 	// 	string(sessBts))
 	sess.Save()
 
-	// out := &dto.AdminLogoutput{Token: admin.UserName}
+	// out := &dto.AdminLoginOutput{Token: admin.UserName}
 	middleware.ResponseSuccess(c, "out")
 
 }

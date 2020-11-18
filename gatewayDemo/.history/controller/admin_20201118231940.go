@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"errors"
 	"gatewayDemo/dao"
 	"gatewayDemo/dto"
 	"gatewayDemo/middleware"
@@ -62,9 +61,8 @@ func (admininfo *AdminController) AdminInfo(c *gin.Context) {
 // @ID /admin_info/changepwd
 // @Accept  json
 // @Produce  json
-// @Param body body dto.ChangePWDInput true "body"
-// @Success 200 {object} middleware.Response{data=dto.ChangePWDInput} "success"
-// @Router /admin_info/changepwd [post]
+// @Success 200 {object} middleware.Response{data=string} "success"
+// @Router /admin_info/info [post]
 func (admininfo *AdminController) ChangePWD(c *gin.Context) {
 	params := &dto.ChangePWDInput{}
 	if err := params.BindingValidParams(c); err != nil {
@@ -94,27 +92,7 @@ func (admininfo *AdminController) ChangePWD(c *gin.Context) {
 		return
 	}
 	adminInfo := &dao.AdminInfo{}
-	adminInfo, err = adminInfo.Find(
-		c,
-		tx,
-		(&dao.AdminInfo{UserName: adminSessionInfo.UserName}),
-	)
-	if err != nil {
-		middleware.ResponseError(c, 2002, err)
-		return
-	}
+	adminInfo.Find(c, tx)
 
-	// 校验密码
-	saltOriginPassword := public.GenSaltPassword(adminInfo.Salt, params.OriginPassword)
-	if saltOriginPassword != adminInfo.Password {
-		middleware.ResponseError(c, 2003, errors.New("密码错误，请重新输入"))
-		return
-	}
-
-	// 修改密码
-	saltPassword := public.GenSaltPassword(adminInfo.Salt, params.Password)
-	adminInfo.Password = saltPassword
-	adminInfo.Save(c, tx)
-
-	middleware.ResponseSuccess(c, "Password changed successful!")
+	middleware.ResponseSuccess(c, "")
 }

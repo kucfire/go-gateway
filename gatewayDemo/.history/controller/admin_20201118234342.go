@@ -116,5 +116,5 @@ func (admininfo *AdminController) ChangePWD(c *gin.Context) {
 	adminInfo.Password = saltPassword
 	adminInfo.Save(c, tx)
 
-	middleware.ResponseSuccess(c, "Password changed successful!")
+	middleware.ResponseSuccess(c, "password changed successful")
 }

@@ -11,6 +11,18 @@ definitions:
     - password
     - username
     type: object
+  dto.ChangePWDInput:
+    properties:
+      originpassword:
+        example: "123456"
+        type: string
+      password:
+        example: "123456"
+        type: string
+    required:
+    - originpassword
+    - password
+    type: object
   middleware.Response:
     properties:
       data:
@@ -28,12 +40,42 @@ info:
   contact: {}
   license: {}
 paths:
+  /admin_info/changepwd:
+    post:
+      consumes:
+      - application/json
+      description: 管理员密码修改
+      operationId: /admin_info/changepwd
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChangePWDInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 管理员密码修改
+      tags:
+      - 管理员接口
   /admin_info/info:
     get:
       consumes:
       - application/json
       description: 管理员信息
       operationId: /admin_info/info
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AdminLoginInput'
       produces:
       - application/json
       responses:
@@ -67,12 +109,12 @@ paths:
       summary: 管理员登录
       tags:
       - 管理员接口
-  /admin_login/loginout:
+  /admin_login/logout:
     get:
       consumes:
       - application/json
       description: 管理员退出
-      operationId: /admin_login/loginout
+      operationId: /admin_login/logout
       produces:
       - application/json
       responses:
