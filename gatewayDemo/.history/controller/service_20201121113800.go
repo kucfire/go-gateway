@@ -17,8 +17,7 @@ type ServiceController struct {
 func ServiceRegister(group *gin.RouterGroup) {
 	service := &ServiceController{}
 	group.GET("/service_list", service.ServiceList)
-	group.GET("/service_delete", service.ServiceDelete)
-	group.POST("")
+	group.GET("/service_delete", service.ServiceList)
 }
 
 // ServiceList godoc
@@ -141,7 +140,7 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 // @ID /service/service_delete
 // @Accept  json
 // @Produce  json
-// @Param id query string true "服务ID"
+// @Param ID query string true "服务ID"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /service/service_delete [get]
 func (service *ServiceController) ServiceDelete(c *gin.Context) {
@@ -159,17 +158,11 @@ func (service *ServiceController) ServiceDelete(c *gin.Context) {
 		return
 	}
 
-	// 从DB中读取基本信息
+	// 从DB中分页读取基本信息
 	serviceInfo := &dao.ServiceInfo{Id: params.ID}
-	serviceInfo, err = serviceInfo.Find(c, tx, serviceInfo)
+	serviceInfo, err = serviceInfo.Find(c, tx, params)
 	if err != nil {
 		middleware.ResponseError(c, 2002, err)
-		return
-	}
-
-	serviceInfo.IsDelete = 1
-	if err = serviceInfo.Save(c, tx); err != nil {
-		middleware.ResponseError(c, 2003, err)
 		return
 	}
 

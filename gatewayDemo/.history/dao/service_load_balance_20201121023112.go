@@ -2,7 +2,6 @@ package dao
 
 import (
 	"gatewayDemo/public"
-	"strings"
 
 	"github.com/e421083458/gorm"
 	"github.com/gin-gonic/gin"
@@ -44,6 +43,7 @@ func (t *ServiceLoadBalance) Save(c *gin.Context, tx *gorm.DB) error {
 	return tx.SetCtx(public.GetGinTraceContext(c)).Save(t).Error
 }
 
-func (t *ServiceLoadBalance) GetIPList() []string {
-	return strings.Split(t.IPList, ",")
+func (t *ServiceLoadBalance) GetIPLisr(c *gin.Context, tx *gorm.DB) error {
+	// 将ad保存进数据库
+	return tx.SetCtx(public.GetGinTraceContext(c)).Save(t).Error
 }

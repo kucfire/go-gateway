@@ -44,6 +44,6 @@ func (t *ServiceLoadBalance) Save(c *gin.Context, tx *gorm.DB) error {
 	return tx.SetCtx(public.GetGinTraceContext(c)).Save(t).Error
 }
 
-func (t *ServiceLoadBalance) GetIPList() []string {
+func (t *ServiceLoadBalance) GetIPLisr() []string {
 	return strings.Split(t.IPList, ",")
 }

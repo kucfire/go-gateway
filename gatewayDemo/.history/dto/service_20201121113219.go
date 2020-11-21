@@ -46,8 +46,7 @@ type ServiceListItemOutput struct {
 }
 
 type ServiceDeleteInput struct {
-	// 服务ID
-	ID int64 `json:"id" form:"id" comment:"服务ID" example:"" validate:"required"`
+	ID int64 `json:"id" form:"id"`
 }
 
 func (params *ServiceDeleteInput) BindingValidParams(c *gin.Context) error {

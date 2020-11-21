@@ -17,8 +17,6 @@ type ServiceController struct {
 func ServiceRegister(group *gin.RouterGroup) {
 	service := &ServiceController{}
 	group.GET("/service_list", service.ServiceList)
-	group.GET("/service_delete", service.ServiceDelete)
-	group.POST("")
 }
 
 // ServiceList godoc
@@ -62,11 +60,11 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 		// // 1. http后缀接入 ： clusterIP + clusterPort + path
 		// // 2. http域名接入 ： domain
 		// // 3. tcp、grpc接入： clisterIP + serverPort
-		serviceAddr := "unknow"
+		// serviceAddr := "unknow"
 
-		clusterIP := lib.GetStringConf("base.cluster.cluster_ip")
-		clusterPort := lib.GetStringConf("base.cluster.cluster_port")
-		clusterSSLPort := lib.GetStringConf("base.cluster.cluster_ssl_port")
+		// clusterIP := lib.GetStringConf("base.cluster.cluster_ip")
+		// clusterPort := lib.GetStringConf("base.cluster.cluster_port")
+		// clusterSSLPort := lib.GetStringConf("base.cluster.cluster_ssl_port")
 
 		serviceDetail, err := listItem.ServiceDetail(c, tx, &listItem)
 		if err != nil {
@@ -84,45 +82,45 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 				serviceDetail.HTTPRule.Rule)
 		}
 
-		// https
-		if serviceDetail.Info.LoadType == public.LoadTypeHTTP &&
-			serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL &&
-			serviceDetail.HTTPRule.NeedHttps == 1 {
-			serviceAddr = fmt.Sprintf("%s:%s%s",
-				clusterIP,
-				clusterSSLPort,
-				serviceDetail.HTTPRule.Rule)
-		}
+		// // https
+		// if serviceDetail.Info.LoadType == public.LoadTypeHTTP &&
+		// 	serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL &&
+		// 	serviceDetail.HTTPRule.NeedHttps == 1 {
+		// 	serviceAddr = fmt.Sprintf("%s:%s%s",
+		// 		clusterIP,
+		// 		clusterSSLPort,
+		// 		serviceDetail.HTTPRule.Rule)
+		// }
 
-		// http domain
-		if serviceDetail.Info.LoadType == public.LoadTypeHTTP &&
-			serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypeDomain {
-			serviceAddr = serviceDetail.HTTPRule.Rule
-		}
+		// // http domain
+		// if serviceDetail.Info.LoadType == public.LoadTypeHTTP &&
+		// 	serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypeDomain {
+		// 	serviceAddr = serviceDetail.HTTPRule.Rule
+		// }
 
-		// tcp
-		if serviceDetail.Info.LoadType == public.LoadTypeTCP {
-			serviceAddr = fmt.Sprintf("%s:%d",
-				clusterIP,
-				serviceDetail.TCPRule.Port)
-		}
+		// // tcp
+		// if serviceDetail.Info.LoadType == public.LoadTypeTCP {
+		// 	serviceAddr = fmt.Sprintf("%s:%d",
+		// 		clusterIP,
+		// 		serviceDetail.TCPRule.Port)
+		// }
 
-		// grpc
-		if serviceDetail.Info.LoadType == public.LoadTypeGRPC {
-			serviceAddr = fmt.Sprintf("%s:%d",
-				clusterIP,
-				serviceDetail.GRPCRule.Port)
-		}
+		// // grpc
+		// if serviceDetail.Info.LoadType == public.LoadTypeTCP {
+		// 	serviceAddr = fmt.Sprintf("%s:%d",
+		// 		clusterIP,
+		// 		serviceDetail.GRPCRule.Port)
+		// }
 
 		outItem := dto.ServiceListItemOutput{
 			ID:          listItem.Id,
 			ServiceName: listItem.ServiceName,
 			ServiceDesc: listItem.ServiceDesc,
-			LoadType:    listItem.LoadType,
-			ServiceAddr: serviceAddr,
-			Qps:         0,
-			Qpd:         0,
-			TotalNode:   len(serviceDetail.LoadBalance.GetIPList()),
+			// LoadType:    listItem.LoadType,
+			// ServiceAddr: serviceAddr,
+			Qps:       0,
+			Qpd:       0,
+			TotalNode: len(serviceDetail.LoadBalance.GetIPList()),
 		}
 		outList = append(outList, outItem)
 	}
@@ -132,46 +130,4 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 		List:  outList,
 	}
 	middleware.ResponseSuccess(c, out)
-}
-
-// ServiceDelete godoc
-// @Summary 服务删除
-// @Description 服务删除
-// @Tags 服务管理
-// @ID /service/service_delete
-// @Accept  json
-// @Produce  json
-// @Param id query string true "服务ID"
-// @Success 200 {object} middleware.Response{data=string} "success"
-// @Router /service/service_delete [get]
-func (service *ServiceController) ServiceDelete(c *gin.Context) {
-	params := &dto.ServiceDeleteInput{}
-	if err := params.BindingValidParams(c); err != nil {
-		// log.F  atal("params.BindingValidParams err : %v", err)
-		middleware.ResponseError(c, 2000, err)
-		return
-	}
-
-	// 连接池
-	tx, err := lib.GetGormPool("default")
-	if err != nil {
-		middleware.ResponseError(c, 2001, err)
-		return
-	}
-
-	// 从DB中读取基本信息
-	serviceInfo := &dao.ServiceInfo{Id: params.ID}
-	serviceInfo, err = serviceInfo.Find(c, tx, serviceInfo)
-	if err != nil {
-		middleware.ResponseError(c, 2002, err)
-		return
-	}
-
-	serviceInfo.IsDelete = 1
-	if err = serviceInfo.Save(c, tx); err != nil {
-		middleware.ResponseError(c, 2003, err)
-		return
-	}
-
-	middleware.ResponseSuccess(c, "deleted successful")
 }

@@ -46,10 +46,5 @@ type ServiceListItemOutput struct {
 }
 
 type ServiceDeleteInput struct {
-	// 服务ID
-	ID int64 `json:"id" form:"id" comment:"服务ID" example:"" validate:"required"`
-}
-
-func (params *ServiceDeleteInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	ID int64 `json:"id" form:"id"`
 }

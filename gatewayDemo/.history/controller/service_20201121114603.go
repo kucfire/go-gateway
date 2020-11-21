@@ -18,7 +18,6 @@ func ServiceRegister(group *gin.RouterGroup) {
 	service := &ServiceController{}
 	group.GET("/service_list", service.ServiceList)
 	group.GET("/service_delete", service.ServiceDelete)
-	group.POST("")
 }
 
 // ServiceList godoc
@@ -141,7 +140,7 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 // @ID /service/service_delete
 // @Accept  json
 // @Produce  json
-// @Param id query string true "服务ID"
+// @Param ID query string true "服务ID"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /service/service_delete [get]
 func (service *ServiceController) ServiceDelete(c *gin.Context) {

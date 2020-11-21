@@ -18,7 +18,6 @@ func ServiceRegister(group *gin.RouterGroup) {
 	service := &ServiceController{}
 	group.GET("/service_list", service.ServiceList)
 	group.GET("/service_delete", service.ServiceDelete)
-	group.POST("")
 }
 
 // ServiceList godoc

@@ -9,6 +9,6 @@ const (
 	LoadTypeTCP  = 1
 	LoadTypeGRPC = 2
 
-	HTTPRuleTypePrefixURL = 0
 	HTTPRuleTypeDomain    = 1
+	HTTPRuleTypePrefixURL = 0
 )

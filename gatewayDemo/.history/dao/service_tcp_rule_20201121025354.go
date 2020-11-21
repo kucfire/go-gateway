@@ -10,7 +10,7 @@ import (
 type ServiceTCPRule struct {
 	Id        int64 `json:"id" gorm:"primary_key"`
 	ServiceID int64 `json:"service_id" gorm:"column:service_id" description:"服务id"`
-	Port      int   `json:"port" gorm:"column:port" description:"端口"`
+	Port      int64 `json:"port" gorm:"column:port" description:"端口"`
 }
 
 func (t *ServiceTCPRule) TableName() string {
