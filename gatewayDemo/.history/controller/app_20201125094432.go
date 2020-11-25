@@ -13,7 +13,7 @@ func AppRegister(group *gin.RouterGroup) {
 	group.GET("/app_detail", app.AppDetail)
 	group.GET("/app_stat", app.AppStat)
 	group.POST("/app_add", app.AppAdd)
-	group.POST("/app_update", app.AppUpdat)
+	group.POST("/service_update_http", app.AppUpdat)
 }
 
 /*

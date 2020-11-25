@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// AdminInfo : 管理员信息结构体
 type AdminInfo struct {
 	ID        int       `json:"id" gorm:"primary_key" description:"自增主键"`
 	UserName  string    `json:"username" gorm:"column:user_name" description:"管理员用户名"`
@@ -22,7 +21,7 @@ type AdminInfo struct {
 	IsDelete  int       `json:"is_delete" gorm:"column:is_delete" description:"是否删除"`
 }
 
-// TableName : 获取数据库对应的表名称
+// TableName : 获取数据库对应的表明
 func (ad *AdminInfo) TableName() string {
 	return "gateway_admin"
 }

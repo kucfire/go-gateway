@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// AdminInfo : 管理员信息结构体
 type AdminInfo struct {
 	ID        int       `json:"id" gorm:"primary_key" description:"自增主键"`
 	UserName  string    `json:"username" gorm:"column:user_name" description:"管理员用户名"`

@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// AdminInfo : 管理员信息结构体
 type AdminInfo struct {
 	ID        int       `json:"id" gorm:"primary_key" description:"自增主键"`
 	UserName  string    `json:"username" gorm:"column:user_name" description:"管理员用户名"`
@@ -22,12 +21,10 @@ type AdminInfo struct {
 	IsDelete  int       `json:"is_delete" gorm:"column:is_delete" description:"是否删除"`
 }
 
-// TableName : 获取数据库对应的表名称
 func (ad *AdminInfo) TableName() string {
 	return "gateway_admin"
 }
 
-// Find : 查询
 func (ad *AdminInfo) Find(c *gin.Context, tx *gorm.DB, search *AdminInfo) (*AdminInfo, error) {
 	out := &AdminInfo{}
 	// 将查询出来的结果放入out结构提里面去
@@ -39,7 +36,6 @@ func (ad *AdminInfo) Find(c *gin.Context, tx *gorm.DB, search *AdminInfo) (*Admi
 
 }
 
-// LoginCheck : 登录校验
 func (ad *AdminInfo) LoginCheck(c *gin.Context, tx *gorm.DB, param *dto.AdminLoginInput) (*AdminInfo, error) {
 	admin, err := ad.Find(c, tx, (&AdminInfo{UserName: param.UserName, IsDelete: 0}))
 	if err != nil {
