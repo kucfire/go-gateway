@@ -203,7 +203,7 @@ type ServiceAddGRPCInput struct {
 	// 接入类型
 	Port int `json:"port" form:"port" comment:"端口，需要设置8001~8999范围内" example:"" validate:"required,min=8001,max=8999"`
 	// 接入路径
-	HeaderTransfor string `json:"header_transport" form:"header_transport" comment:"metadata转换" example:"" validate:"valid_header_transfor"`
+	HeaderTransfor string `json:"header_transport" form:"header_transport" comment:"metadata转换" example:"" validate:"vaild_header_transfor"`
 
 	// db.gateway_service_access_control
 	// 是否开启权限 1=开启
@@ -224,8 +224,14 @@ type ServiceAddGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
+	// 建立连接超时，单位s
+	UpstreamConnectTimeout int `json:"upstream_connect_timeout" form:"upstream_connect_timeout" comment:"建立连接超时，单位s" example:"" validate:"min=0"`
+	// 获取header超时，单位s
+	UpstreamHeaderTimeout int `json:"upstream_header_timeout" form:"upstream_header_timeout" comment:"获取header超时，单位s" example:"" validate:"min=0"`
+	// 链接最大空闲时间，单位s
+	UpstreamIdleTimeout int `json:"upstream_idle_timeout" form:"upstream_idle_timeout" comment:"链接最大空闲时间，单位s" example:"" validate:"min=0"`
+	// 最大空闲链接数
+	UpstreamMaxIdle int `json:"upstream_max_idle" form:"upstream_max_idle" comment:"最大空闲链接数" example:"" validate:"min=0"`
 }
 
 func (params *ServiceAddGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -247,7 +253,7 @@ type ServiceUpdateGRPCInput struct {
 	// 接入类型
 	Port int `json:"port" form:"port" comment:"端口，需要设置8001~8999范围内" example:"" validate:"required,min=8001,max=8999"`
 	// 接入路径
-	HeaderTransfor string `json:"header_transport" form:"header_transport" comment:"metadata转换" example:"" validate:"valid_header_transfor"`
+	HeaderTransfor string `json:"header_transport" form:"header_transport" comment:"metadata转换" example:"" validate:"vaild_header_transfor"`
 
 	// db.gateway_service_access_control
 	// 是否开启权限 1=开启
@@ -268,11 +274,17 @@ type ServiceUpdateGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
+	// 建立连接超时，单位s
+	UpstreamConnectTimeout int `json:"upstream_connect_timeout" form:"upstream_connect_timeout" comment:"建立连接超时，单位s" example:"" validate:"min=0"`
+	// 获取header超时，单位s
+	UpstreamHeaderTimeout int `json:"upstream_header_timeout" form:"upstream_header_timeout" comment:"获取header超时，单位s" example:"" validate:"min=0"`
+	// 链接最大空闲时间，单位s
+	UpstreamIdleTimeout int `json:"upstream_idle_timeout" form:"upstream_idle_timeout" comment:"链接最大空闲时间，单位s" example:"" validate:"min=0"`
+	// 最大空闲链接数
+	UpstreamMaxIdle int `json:"upstream_max_idle" form:"upstream_max_idle" comment:"最大空闲链接数" example:"" validate:"min=0"`
 }
 
-func (params *ServiceUpdateGRPCInput) BindingValidParams(c *gin.Context) error {
+func (params *ServiceUpdateHTTPInput) ServiceUpdateGRPCInput(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, params)
 }
 
@@ -289,8 +301,8 @@ type ServiceAddTCPInput struct {
 	ServiceDesc string `json:"serbice_desc" form:"serbice_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
 
 	// db.gateway_service_tcp_rule
-	// 接入类型
-	Port int `json:"port" form:"port" comment:"端口，需要设置8001~8999范围内" example:"" validate:"required,min=8001,max=8999"`
+	// 接入路径
+	HeaderTransfor string `json:"header_transport" form:"header_transport" comment:"metadata转换" example:"" validate:"vaild_header_transfor"`
 
 	// db.gateway_service_access_control
 	// 是否开启权限 1=开启
@@ -311,8 +323,14 @@ type ServiceAddTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
+	// 建立连接超时，单位s
+	UpstreamConnectTimeout int `json:"upstream_connect_timeout" form:"upstream_connect_timeout" comment:"建立连接超时，单位s" example:"" validate:"min=0"`
+	// 获取header超时，单位s
+	UpstreamHeaderTimeout int `json:"upstream_header_timeout" form:"upstream_header_timeout" comment:"获取header超时，单位s" example:"" validate:"min=0"`
+	// 链接最大空闲时间，单位s
+	UpstreamIdleTimeout int `json:"upstream_idle_timeout" form:"upstream_idle_timeout" comment:"链接最大空闲时间，单位s" example:"" validate:"min=0"`
+	// 最大空闲链接数
+	UpstreamMaxIdle int `json:"upstream_max_idle" form:"upstream_max_idle" comment:"最大空闲链接数" example:"" validate:"min=0"`
 }
 
 func (params *ServiceAddTCPInput) BindingValidParams(c *gin.Context) error {
@@ -330,9 +348,21 @@ type ServiceUpdateTCPInput struct {
 	// 服务描述
 	ServiceDesc string `json:"serbice_desc" form:"serbice_desc" comment:"服务描述" example:"test_http_service_indb" validate:"required,max=255,min=1"`
 
-	// db.gateway_service_tcp_rule
+	// db.gateway_service_http_rule
 	// 接入类型
-	Port int `json:"port" form:"port" comment:"端口，需要设置8001~8999范围内" example:"" validate:"required,min=8001,max=8999"`
+	RuleType int `json:"rule_type" form:"rule_type" comment:"接入类型" example:"" validate:"max=1,min=0"`
+	// 接入路径
+	Rule string `json:"rule" form:"rule" comment:"接入路径：域名或者前缀" example:"/test_http_service_indb" validate:"required,vaild_rule"`
+	// 是否支持HTTPS, 1=支持
+	NeedHTTPS int `json:"need_https" form:"need_https" comment:"是否支持HTTPS:1=支持" example:"" validate:"max=1,min=0"`
+	// 是否启用strip_uri, 1=启用
+	NeedStripURI int `json:"need_strip_uri" form:"need_strip_uri" comment:"启用strip_uri 1=启用" example:"" validate:"max=1,min=0"`
+	// 是否支持websocket, 1=支持
+	NeedWEBSocket int `json:"need_websocket" form:"need_websocket" comment:"是否支持websocket 1=支持" example:"" validate:"max=1,min=0"`
+	// url重写功能 格式：^/gatekeeper/test_service(.*) $1 多个逗号间隔
+	URLRewrite string `json:"url_rewrite" form:"url_rewrite" comment:"url重写功能 格式：^/gatekeeper/test_service(.*) $1 多个逗号间隔" example:"" validate:"valid_url_rewrite"`
+	// header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue 多个逗号间隔
+	HeaderTransfor string `json:"header_transfor" form:"header_transfor" comment:"header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue 多个逗号间隔" example:"" validate:"valid_header_transfor"`
 
 	// db.gateway_service_access_control
 	// 是否开启权限 1=开启
@@ -353,10 +383,16 @@ type ServiceUpdateTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required"`
+	// 建立连接超时，单位s
+	UpstreamConnectTimeout int `json:"upstream_connect_timeout" form:"upstream_connect_timeout" comment:"建立连接超时，单位s" example:"" validate:"min=0"`
+	// 获取header超时，单位s
+	UpstreamHeaderTimeout int `json:"upstream_header_timeout" form:"upstream_header_timeout" comment:"获取header超时，单位s" example:"" validate:"min=0"`
+	// 链接最大空闲时间，单位s
+	UpstreamIdleTimeout int `json:"upstream_idle_timeout" form:"upstream_idle_timeout" comment:"链接最大空闲时间，单位s" example:"" validate:"min=0"`
+	// 最大空闲链接数
+	UpstreamMaxIdle int `json:"upstream_max_idle" form:"upstream_max_idle" comment:"最大空闲链接数" example:"" validate:"min=0"`
 }
 
-func (params *ServiceUpdateTCPInput) BindingValidParams(c *gin.Context) error {
+func (params *ServiceUpdateTCPInput) ServiceUpdateGRPCInput(c *gin.Context) error {
 	return public.DefaultGetValidParams(c, params)
 }

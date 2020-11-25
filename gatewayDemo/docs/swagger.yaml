@@ -23,6 +23,71 @@ definitions:
     - originpassword
     - password
     type: object
+  dto.ServiceAddGRPCInput:
+    properties:
+      black_list:
+        description: 黑名单ip
+        type: string
+      clientip_flow_limit:
+        description: 客户端ip限流
+        type: integer
+      header_transport:
+        description: 接入路径
+        type: string
+      ip_list:
+        description: ip列表
+        type: string
+      open_auth:
+        description: |-
+          db.gateway_service_access_control
+          是否开启权限 1=开启
+        type: integer
+      port:
+        description: |-
+          db.gateway_service_grpc_rule
+          接入类型
+        type: integer
+      round_type:
+        description: |-
+          db.gateway_service_load_balance
+          轮询方式 0=random 1=round_robin 2=wieght_round_robin 3=ip_hash
+        type: integer
+      serbice_desc:
+        description: 服务描述
+        type: string
+      service_flow_limit:
+        description: 服务器限流
+        type: integer
+      service_name:
+        description: |-
+          db.gateway_service_info
+          服务名称
+        type: string
+      upstream_connect_timeout:
+        description: 建立连接超时，单位s
+        type: integer
+      upstream_header_timeout:
+        description: 获取header超时，单位s
+        type: integer
+      upstream_idle_timeout:
+        description: 链接最大空闲时间，单位s
+        type: integer
+      upstream_max_idle:
+        description: 最大空闲链接数
+        type: integer
+      weight_list:
+        description: 权重列表
+        type: string
+      white_list:
+        description: 白名单ip
+        type: string
+    required:
+    - ip_list
+    - port
+    - serbice_desc
+    - service_name
+    - weight_list
+    type: object
   dto.ServiceAddHTTPInput:
     properties:
       black_list:
@@ -100,6 +165,142 @@ definitions:
     required:
     - ip_list
     - rule
+    - serbice_desc
+    - service_name
+    - weight_list
+    type: object
+  dto.ServiceAddTCPInput:
+    properties:
+      black_list:
+        description: 黑名单ip
+        type: string
+      clientip_flow_limit:
+        description: 客户端ip限流
+        type: integer
+      ip_list:
+        description: ip列表
+        type: string
+      open_auth:
+        description: |-
+          db.gateway_service_access_control
+          是否开启权限 1=开启
+        type: integer
+      port:
+        description: |-
+          db.gateway_service_tcp_rule
+          接入类型
+        type: integer
+      round_type:
+        description: |-
+          db.gateway_service_load_balance
+          轮询方式 0=random 1=round_robin 2=wieght_round_robin 3=ip_hash
+        type: integer
+      serbice_desc:
+        description: 服务描述
+        type: string
+      service_flow_limit:
+        description: 服务器限流
+        type: integer
+      service_name:
+        description: |-
+          db.gateway_service_info
+          服务名称
+        type: string
+      upstream_connect_timeout:
+        description: 建立连接超时，单位s
+        type: integer
+      upstream_header_timeout:
+        description: 获取header超时，单位s
+        type: integer
+      upstream_idle_timeout:
+        description: 链接最大空闲时间，单位s
+        type: integer
+      upstream_max_idle:
+        description: 最大空闲链接数
+        type: integer
+      weight_list:
+        description: 权重列表
+        type: string
+      white_list:
+        description: 白名单ip
+        type: string
+    required:
+    - ip_list
+    - port
+    - serbice_desc
+    - service_name
+    - weight_list
+    type: object
+  dto.ServiceUpdateGRPCInput:
+    properties:
+      black_list:
+        description: 黑名单ip
+        type: string
+      clientip_flow_limit:
+        description: 客户端ip限流
+        type: integer
+      header_transport:
+        description: 接入路径
+        type: string
+      id:
+        description: ID
+        example: 62
+        type: integer
+      ip_list:
+        description: ip列表
+        example: 127.0.0.1:80
+        type: string
+      open_auth:
+        description: |-
+          db.gateway_service_access_control
+          是否开启权限 1=开启
+        type: integer
+      port:
+        description: |-
+          db.gateway_service_grpc_rule
+          接入类型
+        type: integer
+      round_type:
+        description: |-
+          db.gateway_service_load_balance
+          轮询方式 0=random 1=round_robin 2=wieght_round_robin 3=ip_hash
+        type: integer
+      serbice_desc:
+        description: 服务描述
+        example: test_http_service_indb
+        type: string
+      service_flow_limit:
+        description: 服务器限流
+        type: integer
+      service_name:
+        description: |-
+          db.gateway_service_info
+          服务名称
+        example: test_http_service_indb
+        type: string
+      upstream_connect_timeout:
+        description: 建立连接超时，单位s
+        type: integer
+      upstream_header_timeout:
+        description: 获取header超时，单位s
+        type: integer
+      upstream_idle_timeout:
+        description: 链接最大空闲时间，单位s
+        type: integer
+      upstream_max_idle:
+        description: 最大空闲链接数
+        type: integer
+      weight_list:
+        description: 权重列表
+        example: "50"
+        type: string
+      white_list:
+        description: 白名单ip
+        type: string
+    required:
+    - id
+    - ip_list
+    - port
     - serbice_desc
     - service_name
     - weight_list
@@ -191,6 +392,77 @@ definitions:
     - id
     - ip_list
     - rule
+    - serbice_desc
+    - service_name
+    - weight_list
+    type: object
+  dto.ServiceUpdateTCPInput:
+    properties:
+      black_list:
+        description: 黑名单ip
+        type: string
+      clientip_flow_limit:
+        description: 客户端ip限流
+        type: integer
+      id:
+        description: ID
+        example: 62
+        type: integer
+      ip_list:
+        description: ip列表
+        example: 127.0.0.1:80
+        type: string
+      open_auth:
+        description: |-
+          db.gateway_service_access_control
+          是否开启权限 1=开启
+        type: integer
+      port:
+        description: |-
+          db.gateway_service_tcp_rule
+          接入类型
+        type: integer
+      round_type:
+        description: |-
+          db.gateway_service_load_balance
+          轮询方式 0=random 1=round_robin 2=wieght_round_robin 3=ip_hash
+        type: integer
+      serbice_desc:
+        description: 服务描述
+        example: test_http_service_indb
+        type: string
+      service_flow_limit:
+        description: 服务器限流
+        type: integer
+      service_name:
+        description: |-
+          db.gateway_service_info
+          服务名称
+        example: test_http_service_indb
+        type: string
+      upstream_connect_timeout:
+        description: 建立连接超时，单位s
+        type: integer
+      upstream_header_timeout:
+        description: 获取header超时，单位s
+        type: integer
+      upstream_idle_timeout:
+        description: 链接最大空闲时间，单位s
+        type: integer
+      upstream_max_idle:
+        description: 最大空闲链接数
+        type: integer
+      weight_list:
+        description: 权重列表
+        example: "50"
+        type: string
+      white_list:
+        description: 白名单ip
+        type: string
+    required:
+    - id
+    - ip_list
+    - port
     - serbice_desc
     - service_name
     - weight_list
@@ -297,6 +569,29 @@ paths:
       summary: 管理员退出
       tags:
       - 管理员接口
+  /service/service_add_grpc:
+    post:
+      consumes:
+      - application/json
+      description: 添加GRPC服务
+      operationId: /service/service_add_grpc
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ServiceAddGRPCInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 添加GRPC服务
+      tags:
+      - 服务管理
   /service/service_add_http:
     post:
       consumes:
@@ -318,6 +613,29 @@ paths:
           schema:
             $ref: '#/definitions/middleware.Response'
       summary: 添加HTTP服务
+      tags:
+      - 服务管理
+  /service/service_add_tcp:
+    post:
+      consumes:
+      - application/json
+      description: 添加TCP服务
+      operationId: /service/service_add_tcp
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ServiceAddTCPInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 添加TCP服务
       tags:
       - 服务管理
   /service/service_delete:
@@ -395,6 +713,51 @@ paths:
       summary: 服务列表
       tags:
       - 服务管理
+  /service/service_stat:
+    get:
+      consumes:
+      - application/json
+      description: 服务统计
+      operationId: /service/service_stat
+      parameters:
+      - description: 服务ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 服务统计
+      tags:
+      - 服务管理
+  /service/service_update_grpc:
+    post:
+      consumes:
+      - application/json
+      description: 修改GRPC服务
+      operationId: /service/service_update_grpc
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ServiceUpdateGRPCInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 修改GRPC服务
+      tags:
+      - 服务管理
   /service/service_update_http:
     post:
       consumes:
@@ -416,6 +779,29 @@ paths:
           schema:
             $ref: '#/definitions/middleware.Response'
       summary: 修改HTTP服务
+      tags:
+      - 服务管理
+  /service/service_update_tcp:
+    post:
+      consumes:
+      - application/json
+      description: 修改TCP服务
+      operationId: /service/service_update_tcp
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ServiceUpdateTCPInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 修改TCP服务
       tags:
       - 服务管理
 swagger: "2.0"

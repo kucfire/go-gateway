@@ -444,34 +444,20 @@ func (adminligin *ServiceController) ServiceUpdateHTTP(c *gin.Context) {
 	tx = tx.Begin()
 
 	// 检验服务信息是否存在
-	serviceInfoSearch := &dao.ServiceInfo{ID: params.ID}
-	serviceInfoSearch, err = serviceInfoSearch.Find(c, tx, serviceInfoSearch)
+	serviceInfo := &dao.ServiceInfo{ID: params.ID}
+	serviceInfo, err = serviceInfo.Find(c, tx, serviceInfo)
 	if err != nil && err == gorm.ErrRecordNotFound {
 		middleware.ResponseError(c, 2003, errors.New("服务不存在"))
 		return
 	}
 
 	// 校验服务信息
-	serviceInfo := &dao.ServiceInfo{ID: params.ID}
+	serviceInfo = &dao.ServiceInfo{ServiceName: params.ServiceName}
 	serviceDetail, err := serviceInfo.ServiceDetail(c, tx, serviceInfo)
 	if err != nil {
 		tx.Rollback()
+		fmt.Println(err)
 		middleware.ResponseError(c, 2004, err)
-		return
-	}
-
-	// 更新服务信息
-	serviceInfo = &dao.ServiceInfo{
-		ID:          serviceInfoSearch.ID,
-		LoadType:    serviceInfoSearch.LoadType,
-		ServiceName: params.ServiceName,
-		ServiceDesc: params.ServiceDesc,
-		CreatedAt:   serviceInfoSearch.CreatedAt,
-		IsDelete:    serviceInfoSearch.IsDelete,
-	}
-	if err := serviceInfo.Save(c, tx); err != nil {
-		tx.Rollback()
-		middleware.ResponseError(c, 2005, err)
 		return
 	}
 
@@ -744,7 +730,10 @@ func (adminligin *ServiceController) ServiceUpdateGRPC(c *gin.Context) {
 	serviceLoadBalance.RoundType = params.RoundType
 	serviceLoadBalance.IPList = params.IPList
 	serviceLoadBalance.WeightList = params.WeightList
-	serviceLoadBalance.ForbidList = params.ForbidList
+	serviceLoadBalance.UpstreamConnectTimeout = params.UpstreamConnectTimeout
+	serviceLoadBalance.UpstreamHeaderTimeout = params.UpstreamHeaderTimeout
+	serviceLoadBalance.UpstreamIdleTimeout = params.UpstreamIdleTimeout
+	serviceLoadBalance.UpstreamMaxIdle = params.UpstreamMaxIdle
 	if err = serviceLoadBalance.Save(c, tx); err != nil {
 		tx.Rollback()
 		middleware.ResponseError(c, 2008, err)
@@ -918,15 +907,15 @@ func (adminligin *ServiceController) ServiceUpdateTCP(c *gin.Context) {
 	tx = tx.Begin()
 
 	// 检验服务信息是否存在
-	serviceInfoSearch := &dao.ServiceInfo{ID: params.ID}
-	serviceInfoSearch, err = serviceInfoSearch.Find(c, tx, serviceInfoSearch)
+	serviceInfo := &dao.ServiceInfo{ID: params.ID}
+	serviceInfo, err = serviceInfo.Find(c, tx, serviceInfo)
 	if err != nil && err == gorm.ErrRecordNotFound {
 		middleware.ResponseError(c, 2003, errors.New("服务不存在"))
 		return
 	}
 
 	// 校验服务信息
-	serviceInfo := &dao.ServiceInfo{ID: params.ID}
+	serviceInfo = &dao.ServiceInfo{ID: params.ID}
 	serviceDetail, err := serviceInfo.ServiceDetail(c, tx, serviceInfo)
 	if err != nil {
 		tx.Rollback()
@@ -935,14 +924,8 @@ func (adminligin *ServiceController) ServiceUpdateTCP(c *gin.Context) {
 	}
 
 	// 更新服务信息
-	serviceInfo = &dao.ServiceInfo{
-		ID:          serviceInfoSearch.ID,
-		LoadType:    serviceInfoSearch.LoadType,
-		ServiceName: params.ServiceName,
-		ServiceDesc: params.ServiceDesc,
-		CreatedAt:   serviceInfoSearch.CreatedAt,
-		IsDelete:    serviceInfoSearch.IsDelete,
-	}
+	serviceInfo = serviceDetail.Info
+	serviceInfo.ServiceDesc = params.ServiceDesc
 	if err := serviceInfo.Save(c, tx); err != nil {
 		tx.Rollback()
 		middleware.ResponseError(c, 2005, err)
@@ -975,7 +958,10 @@ func (adminligin *ServiceController) ServiceUpdateTCP(c *gin.Context) {
 	serviceLoadBalance.RoundType = params.RoundType
 	serviceLoadBalance.IPList = params.IPList
 	serviceLoadBalance.WeightList = params.WeightList
-	serviceLoadBalance.ForbidList = params.ForbidList
+	serviceLoadBalance.UpstreamConnectTimeout = params.UpstreamConnectTimeout
+	serviceLoadBalance.UpstreamHeaderTimeout = params.UpstreamHeaderTimeout
+	serviceLoadBalance.UpstreamIdleTimeout = params.UpstreamIdleTimeout
+	serviceLoadBalance.UpstreamMaxIdle = params.UpstreamMaxIdle
 	if err = serviceLoadBalance.Save(c, tx); err != nil {
 		tx.Rollback()
 		middleware.ResponseError(c, 2008, err)

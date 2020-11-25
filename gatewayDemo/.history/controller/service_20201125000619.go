@@ -975,7 +975,10 @@ func (adminligin *ServiceController) ServiceUpdateTCP(c *gin.Context) {
 	serviceLoadBalance.RoundType = params.RoundType
 	serviceLoadBalance.IPList = params.IPList
 	serviceLoadBalance.WeightList = params.WeightList
-	serviceLoadBalance.ForbidList = params.ForbidList
+	serviceLoadBalance.UpstreamConnectTimeout = params.UpstreamConnectTimeout
+	serviceLoadBalance.UpstreamHeaderTimeout = params.UpstreamHeaderTimeout
+	serviceLoadBalance.UpstreamIdleTimeout = params.UpstreamIdleTimeout
+	serviceLoadBalance.UpstreamMaxIdle = params.UpstreamMaxIdle
 	if err = serviceLoadBalance.Save(c, tx); err != nil {
 		tx.Rollback()
 		middleware.ResponseError(c, 2008, err)

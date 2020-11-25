@@ -354,7 +354,7 @@ type ServiceUpdateTCPInput struct {
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
 	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required"`
+	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceUpdateTCPInput) BindingValidParams(c *gin.Context) error {

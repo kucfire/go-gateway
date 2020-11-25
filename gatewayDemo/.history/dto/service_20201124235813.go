@@ -224,8 +224,6 @@ type ServiceAddGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceAddGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -268,8 +266,6 @@ type ServiceUpdateGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceUpdateGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -311,8 +307,6 @@ type ServiceAddTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceAddTCPInput) BindingValidParams(c *gin.Context) error {
@@ -353,8 +347,14 @@ type ServiceUpdateTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required"`
+	// 建立连接超时，单位s
+	UpstreamConnectTimeout int `json:"upstream_connect_timeout" form:"upstream_connect_timeout" comment:"建立连接超时，单位s" example:"" validate:"min=0"`
+	// 获取header超时，单位s
+	UpstreamHeaderTimeout int `json:"upstream_header_timeout" form:"upstream_header_timeout" comment:"获取header超时，单位s" example:"" validate:"min=0"`
+	// 链接最大空闲时间，单位s
+	UpstreamIdleTimeout int `json:"upstream_idle_timeout" form:"upstream_idle_timeout" comment:"链接最大空闲时间，单位s" example:"" validate:"min=0"`
+	// 最大空闲链接数
+	UpstreamMaxIdle int `json:"upstream_max_idle" form:"upstream_max_idle" comment:"最大空闲链接数" example:"" validate:"min=0"`
 }
 
 func (params *ServiceUpdateTCPInput) BindingValidParams(c *gin.Context) error {

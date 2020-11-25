@@ -224,8 +224,6 @@ type ServiceAddGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceAddGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -268,8 +266,6 @@ type ServiceUpdateGRPCInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceUpdateGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -311,8 +307,6 @@ type ServiceAddTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
 }
 
 func (params *ServiceAddTCPInput) BindingValidParams(c *gin.Context) error {
@@ -353,8 +347,6 @@ type ServiceUpdateTCPInput struct {
 	IPList string `json:"ip_list" form:"ip_list" comment:"ip列表" example:"127.0.0.1:80" validate:"required,valid_ip_list"`
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"50" validate:"required,valid_weight_list"`
-	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required"`
 }
 
 func (params *ServiceUpdateTCPInput) BindingValidParams(c *gin.Context) error {
