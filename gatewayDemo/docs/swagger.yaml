@@ -11,6 +11,56 @@ definitions:
     - password
     - username
     type: object
+  dto.AppAddInput:
+    properties:
+      app_id:
+        description: 服务名称
+        example: app_id_0
+        type: string
+      name:
+        description: 服务名称
+        example: app_id_0
+        type: string
+      qpd:
+        description: 服务名称
+        example: 0
+        type: integer
+      qps:
+        description: 服务名称
+        example: 0
+        type: integer
+      secret:
+        description: 服务名称
+        type: string
+      white_ips:
+        description: 服务名称
+        type: string
+    required:
+    - app_id
+    - name
+    type: object
+  dto.AppUpdateInput:
+    properties:
+      app_id:
+        description: 服务名称:需要ID进行校验
+        type: string
+      id:
+        description: 自增ID
+        type: integer
+      name:
+        description: 服务名称
+        type: string
+      secret:
+        description: 服务名称
+        type: string
+      white_ips:
+        description: 服务名称
+        type: string
+    required:
+    - app_id
+    - id
+    - name
+    type: object
   dto.ChangePWDInput:
     properties:
       originpassword:
@@ -31,6 +81,9 @@ definitions:
       clientip_flow_limit:
         description: 客户端ip限流
         type: integer
+      forbid_list:
+        description: 禁用ip列表
+        type: string
       header_transport:
         description: 接入路径
         type: string
@@ -63,18 +116,6 @@ definitions:
           db.gateway_service_info
           服务名称
         type: string
-      upstream_connect_timeout:
-        description: 建立连接超时，单位s
-        type: integer
-      upstream_header_timeout:
-        description: 获取header超时，单位s
-        type: integer
-      upstream_idle_timeout:
-        description: 链接最大空闲时间，单位s
-        type: integer
-      upstream_max_idle:
-        description: 最大空闲链接数
-        type: integer
       weight_list:
         description: 权重列表
         type: string
@@ -82,6 +123,7 @@ definitions:
         description: 白名单ip
         type: string
     required:
+    - forbid_list
     - ip_list
     - port
     - serbice_desc
@@ -177,6 +219,9 @@ definitions:
       clientip_flow_limit:
         description: 客户端ip限流
         type: integer
+      forbid_list:
+        description: 禁用ip列表
+        type: string
       ip_list:
         description: ip列表
         type: string
@@ -206,18 +251,6 @@ definitions:
           db.gateway_service_info
           服务名称
         type: string
-      upstream_connect_timeout:
-        description: 建立连接超时，单位s
-        type: integer
-      upstream_header_timeout:
-        description: 获取header超时，单位s
-        type: integer
-      upstream_idle_timeout:
-        description: 链接最大空闲时间，单位s
-        type: integer
-      upstream_max_idle:
-        description: 最大空闲链接数
-        type: integer
       weight_list:
         description: 权重列表
         type: string
@@ -225,6 +258,7 @@ definitions:
         description: 白名单ip
         type: string
     required:
+    - forbid_list
     - ip_list
     - port
     - serbice_desc
@@ -239,6 +273,9 @@ definitions:
       clientip_flow_limit:
         description: 客户端ip限流
         type: integer
+      forbid_list:
+        description: 禁用ip列表
+        type: string
       header_transport:
         description: 接入路径
         type: string
@@ -278,18 +315,6 @@ definitions:
           服务名称
         example: test_http_service_indb
         type: string
-      upstream_connect_timeout:
-        description: 建立连接超时，单位s
-        type: integer
-      upstream_header_timeout:
-        description: 获取header超时，单位s
-        type: integer
-      upstream_idle_timeout:
-        description: 链接最大空闲时间，单位s
-        type: integer
-      upstream_max_idle:
-        description: 最大空闲链接数
-        type: integer
       weight_list:
         description: 权重列表
         example: "50"
@@ -298,6 +323,7 @@ definitions:
         description: 白名单ip
         type: string
     required:
+    - forbid_list
     - id
     - ip_list
     - port
@@ -404,6 +430,9 @@ definitions:
       clientip_flow_limit:
         description: 客户端ip限流
         type: integer
+      forbid_list:
+        description: 禁用ip列表
+        type: string
       id:
         description: ID
         example: 62
@@ -440,18 +469,6 @@ definitions:
           服务名称
         example: test_http_service_indb
         type: string
-      upstream_connect_timeout:
-        description: 建立连接超时，单位s
-        type: integer
-      upstream_header_timeout:
-        description: 获取header超时，单位s
-        type: integer
-      upstream_idle_timeout:
-        description: 链接最大空闲时间，单位s
-        type: integer
-      upstream_max_idle:
-        description: 最大空闲链接数
-        type: integer
       weight_list:
         description: 权重列表
         example: "50"
@@ -460,6 +477,7 @@ definitions:
         description: 白名单ip
         type: string
     required:
+    - forbid_list
     - id
     - ip_list
     - port
@@ -569,6 +587,149 @@ paths:
       summary: 管理员退出
       tags:
       - 管理员接口
+  /app/app_add:
+    post:
+      consumes:
+      - application/json
+      description: 添加租户
+      operationId: /app/app_add
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AppAddInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 添加租户
+      tags:
+      - 租户管理
+  /app/app_delete:
+    get:
+      consumes:
+      - application/json
+      description: 租户删除
+      operationId: /app/app_delete
+      parameters:
+      - description: 租户ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 租户删除
+      tags:
+      - 租户管理
+  /app/app_detail:
+    get:
+      consumes:
+      - application/json
+      description: 租户信息
+      operationId: /app/app_detail
+      parameters:
+      - description: 租户ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 租户信息
+      tags:
+      - 租户管理
+  /app/app_list:
+    get:
+      consumes:
+      - application/json
+      description: 租户列表
+      operationId: /app/app_list
+      parameters:
+      - description: 关键词
+        in: query
+        name: info
+        type: string
+      - description: 页数
+        in: query
+        name: page_no
+        required: true
+        type: integer
+      - description: 每页条数
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 租户列表
+      tags:
+      - 租户管理
+  /app/app_stat:
+    get:
+      consumes:
+      - application/json
+      description: 租户统计
+      operationId: /app/app_stat
+      parameters:
+      - description: 租户ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 租户统计
+      tags:
+      - 租户管理
+  /app/app_update:
+    post:
+      consumes:
+      - application/json
+      description: 租户更新
+      operationId: /app/app_update
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AppUpdateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/middleware.Response'
+      summary: 租户更新
+      tags:
+      - 租户管理
   /service/service_add_grpc:
     post:
       consumes:
