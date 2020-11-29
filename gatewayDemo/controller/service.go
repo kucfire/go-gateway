@@ -244,7 +244,7 @@ func (service *ServiceController) ServiceDetail(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id query string true "服务ID"
-// @Success 200 {object} middleware.Response{data=dao.ServiceStatOutput} "success"
+// @Success 200 {object} middleware.Response{data=dto.ServiceStatOutput} "success"
 // @Router /service/service_stat [get]
 func (service *ServiceController) ServiceStat(c *gin.Context) {
 	// 由于只需要一个ID所以直接调用delete的输入结构即可

@@ -6,3 +6,14 @@ type PanelGroupDataOutput struct {
 	CurrentQPS      int64 `json:"current_qps"`
 	TodayRequestNum int64 `json:"today_request_num"`
 }
+
+type DashServiceStatListOutput struct {
+	Name     string `json:"name"`
+	LoadType int    `json:"load_type"`
+	Value    int64  `json:"value"`
+}
+
+type DashServiceStatOutput struct {
+	Legend []string                    `json:"legend"`
+	Data   []DashServiceStatListOutput `json:"data"`
+}

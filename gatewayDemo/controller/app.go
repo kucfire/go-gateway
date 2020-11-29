@@ -276,7 +276,7 @@ func (service *AppController) AppDelete(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id query string true "租户ID"
-// @Success 200 {object} middleware.Response{data=dao.AppDeleteInput} "success"
+// @Success 200 {object} middleware.Response{data=dto.AppDeleteInput} "success"
 // @Router /app/app_detail [get]
 func (service *AppController) AppDetail(c *gin.Context) {
 	params := &dto.AppDeleteInput{}
@@ -318,7 +318,7 @@ func (service *AppController) AppDetail(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id query string true "租户ID"
-// @Success 200 {object} middleware.Response{data=dao.AppStatOutput} "success"
+// @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /app/app_stat [get]
 func (service *AppController) AppStat(c *gin.Context) {
 	// 由于只需要一个ID所以直接调用delete的输入结构即可
