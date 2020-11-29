@@ -128,8 +128,8 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		controller.AppRegister(appListRouter)
 	}
 
-	dashboardRouter := router.Group("/dashboard")
-	dashboardRouter.Use(
+	dashgroupdataRouter := router.Group("/app")
+	dashgroupdataRouter.Use(
 		sessions.Sessions("mysession", store),
 		middleware.RecoveryMiddleware(),
 		middleware.RequestLog(),
@@ -137,9 +137,8 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		middleware.TranslationMiddleware(),
 	)
 	{
-		controller.DashBoardRegister(dashboardRouter)
+		controller.AppRegister(dashgroupdataRouter)
 	}
-
 	// //demo
 	// v1 := router.Group("/demo")
 	// v1.Use(middleware.RecoveryMiddleware(), middleware.RequestLog(), middleware.IPAuthMiddleware(), middleware.TranslationMiddleware())

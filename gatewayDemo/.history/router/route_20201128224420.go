@@ -137,7 +137,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		middleware.TranslationMiddleware(),
 	)
 	{
-		controller.DashBoardRegister(dashboardRouter)
+		controller.AppRegister(dashboardRouter)
 	}
 
 	// //demo
