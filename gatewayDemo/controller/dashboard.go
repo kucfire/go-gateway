@@ -91,7 +91,7 @@ func (dashboard *DashBoardController) FlowStat(c *gin.Context) {
 // ServiceStat godoc
 // @Summary 服务统计
 // @Description 服务统计
-// @Tags 大盘
+// @Tags 大盘rest
 // @ID /dashboard/service_stat
 // @Accept  json
 // @Produce  json
