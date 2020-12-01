@@ -49,7 +49,7 @@ func (ad *AdminInfo) LoginCheck(c *gin.Context, tx *gorm.DB, param *dto.AdminLog
 	saltPassword := public.GenSaltPassword(admin.Salt, param.Password)
 	fmt.Println(saltPassword, admin.Password)
 	if saltPassword != admin.Password {
-		return nil, errors.New("密码错误，请重新输入")
+		return nil, errors.New("密码错误，请重新输入;")
 	}
 	return admin, nil
 }
