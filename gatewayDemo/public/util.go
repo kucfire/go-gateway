@@ -13,5 +13,4 @@ func GenSaltPassword(salt, password string) string {
 	s2 := sha256.New()
 	s2.Write([]byte(str1 + salt))
 	return fmt.Sprintf("%x", s2.Sum(nil))
-
 }
