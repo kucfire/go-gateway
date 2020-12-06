@@ -35,7 +35,7 @@ type ServiceListItemOutput struct {
 	// 服务名称
 	ServiceName string `json:"service_name" form:"service_name"`
 	// 服务描述
-	ServiceDesc string `json:"serbice_desc" form:"serbice_desc"`
+	ServiceDesc string `json:"service_desc" form:"serbice_desc"`
 	// 类型
 	LoadType int `json:"load_type" form:"load_type"`
 	// 服务地址

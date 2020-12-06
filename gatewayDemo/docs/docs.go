@@ -570,7 +570,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "大盘"
+                    "大盘rest"
                 ],
                 "summary": "服务统计",
                 "operationId": "/dashboard/service_stat",

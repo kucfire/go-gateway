@@ -120,6 +120,7 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 
 		// tcp
 		if serviceDetail.Info.LoadType == public.LoadTypeTCP {
+			// fmt.Println(serviceDetail.TCPRule)
 			serviceAddr = fmt.Sprintf("%s:%d",
 				clusterIP,
 				serviceDetail.TCPRule.Port)

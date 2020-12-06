@@ -73,7 +73,7 @@ CREATE TABLE if not exists go_gateway.gateway_admin  (
 insert into 
 go_gateway.gateway_admin (`id`, `user_name`, `salt`, `password`, `create_at`, `update_at`, `is_delete`)
 values 
-(1, 'admin', 'admin', '2823d896e9822c0833d41d4904f0c00756d718570fce49b9a379a62c804689d3', (SELECT DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')), (SELECT DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')), 0);
+(1, 'admin', 'admin', 'e2b3678e8af69ade303325a17c7f9059bfcdf054c20cf899279df60afcd783c3', (SELECT DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')), (SELECT DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')), 0);
 /* 
 delete from go_gateway.gateway_admin 清除表数据
 select * from go_gateway.gateway_admin 查询数据是否成功添加
