@@ -81,8 +81,8 @@
       >
         <template slot-scope="{ row, $index }">
           <el-button type="primary" size="mini"> 统计 </el-button>
-          <router-link :to="'/service/service_edit_http/'+row.id">
-            <!-- <router-link :to="'/service/service_edit_http'"> -->
+          <!-- <router-link :to="'/service/service_edit_http/'+row.id"> -->
+          <router-link :to="'/service/service_edit_http'">
             <el-button type="primary" size="mini"> 修改 </el-button>
           </router-link>
           <el-button

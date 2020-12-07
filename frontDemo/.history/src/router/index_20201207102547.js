@@ -91,14 +91,14 @@ export const constantRoutes = [
       {
         path: 'service_create_http',
         component: () => import('@/views/service/http'),
-        name: '创建HTTP服务',
+        name: '服务',
         meta: { title: '创建HTTP服务', icon: 'component', affix: false },
         hidden: true
       },
       {
         path: 'service_edit_http',
         component: () => import('@/views/service/http'),
-        name: '修改HTTP服务',
+        name: '服务',
         meta: { title: '修改HTTP服务', icon: 'component', affix: false },
         hidden: true
       }
