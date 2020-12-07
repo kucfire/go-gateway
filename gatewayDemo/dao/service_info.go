@@ -10,7 +10,7 @@ import (
 )
 
 type ServiceInfo struct {
-	ID          int64     `json:"ID" gorm:"primary_key"`
+	ID          int64     `json:"id" gorm:"primary_key"`
 	LoadType    int       `json:"load_type" gorm:"column:load_type" description:"服务类型"`
 	ServiceName string    `json:"service_name" gorm:"column:service_name" description:"服务名称"`
 	ServiceDesc string    `json:"service_desc" gorm:"column:service_desc" description:"服务描述"`
