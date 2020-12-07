@@ -13,7 +13,7 @@
             <el-form-item label="服务描述" class="is-required">
               <el-input v-model="form.service_desc" placeholder="最多255位字符"></el-input>
             </el-form-item>
-            <el-form-item label="接入类型" class="is-required">
+            <el-form-item label="接入类型">
               <el-input v-model="form.rule" placeholder="路径格式：/user/,域名格式：www.test.com" class="input-with-select">
                 <el-select slot="prepend" v-model="form.rule_type" placeholder="请选择" style="width:80px">
                   <el-option label="路径" :value="0" />
@@ -61,10 +61,10 @@
                 <el-radio :label="3">ip_hash</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="IP列表" class="is-required">
+            <el-form-item label="IP列表">
               <el-input v-model="form.ip_list" type="textarea" autosize placeholder="格式:127.0.0.1:80 多条换行"></el-input>
             </el-form-item>
-            <el-form-item label="权重列表" class="is-required">
+            <el-form-item label="权重列表">
               <el-input v-model="form.weight_list" type="textarea" autosize placeholder="格式:50 多条换行"></el-input>
             </el-form-item>
             <el-form-item label="建立连接超时">
@@ -80,7 +80,8 @@
               <el-input v-model="form.upstream_max_idle" placeholder="0表示无限制"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" :disable="submitButtonDisabled" @click="handleCreateHTTP">立即创建</el-button>
+              <el-button type="primary" @click="handleCreateHTTP">立即创建</el-button>
+              <el-button>取消</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -95,7 +96,6 @@ export default {
   name: 'ServiceCreateHTTP',
   data() {
     return {
-      submitButtonDisabled: false,
       form: {
         service_name: '',
         service_desc: '',
@@ -109,21 +109,20 @@ export default {
         open_auth: 0,
         white_list: '',
         black_list: '',
-        clientip_flow_limit: '',
-        service_flow_limit: '',
+        clientip_flow_limit: undefined,
+        service_flow_limit: undefined,
         round_type: 0,
         ip_list: '',
         weight_list: '',
-        upstream_connect_timeout: '',
-        upstream_header_timeout: '',
-        upstream_idle_timeout: '',
-        upstream_max_idle: ''
+        upstream_connect_timeout: undefined,
+        upstream_header_timeout: undefined,
+        upstream_idle_timeout: undefined,
+        upstream_max_idle: undefined
       }
     }
   },
   methods: {
     handleCreateHTTP() {
-      this.submitButtonDisabled = true
       const addQuery = Object.assign({}, this.form)
       console.log(addQuery)
       addQuery.white_list = addQuery.white_list.replace(/\n/g, ',')
@@ -132,22 +131,12 @@ export default {
       addQuery.ip_list = addQuery.ip_list.replace(/\n/g, ',')
       addQuery.weight_list = addQuery.weight_list.replace(/\n/g, ',')
       addQuery.header_transfor = addQuery.header_transfor.replace(/\n/g, ',')
-      // string转换位int
-      addQuery.clientip_flow_limit = Number(addQuery.clientip_flow_limit)
-      addQuery.service_flow_limit = Number(addQuery.service_flow_limit)
-      addQuery.upstream_connect_timeout = Number(addQuery.upstream_connect_timeout)
-      addQuery.upstream_header_timeout = Number(addQuery.upstream_header_timeout)
-      addQuery.upstream_idle_timeout = Number(addQuery.upstream_idle_timeout)
-      addQuery.upstream_max_idle = Number(addQuery.upstream_max_idle)
       serviceAddHTTP(addQuery).then((response) => {
-        this.submitButtonDisabled = false
         this.$notify({
           title: 'Success',
           message: '添加成功',
           type: 'success',
           duration: 2000
-        }).catch(() => {
-          this.submitButtonDisabled = false
         })
       })
     }

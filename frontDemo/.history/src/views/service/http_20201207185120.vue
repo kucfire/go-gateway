@@ -95,7 +95,7 @@ export default {
   name: 'ServiceCreateHTTP',
   data() {
     return {
-      submitButtonDisabled: false,
+      submitButtonDisabled:false,
       form: {
         service_name: '',
         service_desc: '',
@@ -109,21 +109,20 @@ export default {
         open_auth: 0,
         white_list: '',
         black_list: '',
-        clientip_flow_limit: '',
-        service_flow_limit: '',
+        clientip_flow_limit: undefined,
+        service_flow_limit: undefined,
         round_type: 0,
         ip_list: '',
         weight_list: '',
-        upstream_connect_timeout: '',
-        upstream_header_timeout: '',
-        upstream_idle_timeout: '',
-        upstream_max_idle: ''
+        upstream_connect_timeout: undefined,
+        upstream_header_timeout: undefined,
+        upstream_idle_timeout: undefined,
+        upstream_max_idle: undefined
       }
     }
   },
   methods: {
     handleCreateHTTP() {
-      this.submitButtonDisabled = true
       const addQuery = Object.assign({}, this.form)
       console.log(addQuery)
       addQuery.white_list = addQuery.white_list.replace(/\n/g, ',')
@@ -132,22 +131,12 @@ export default {
       addQuery.ip_list = addQuery.ip_list.replace(/\n/g, ',')
       addQuery.weight_list = addQuery.weight_list.replace(/\n/g, ',')
       addQuery.header_transfor = addQuery.header_transfor.replace(/\n/g, ',')
-      // string转换位int
-      addQuery.clientip_flow_limit = Number(addQuery.clientip_flow_limit)
-      addQuery.service_flow_limit = Number(addQuery.service_flow_limit)
-      addQuery.upstream_connect_timeout = Number(addQuery.upstream_connect_timeout)
-      addQuery.upstream_header_timeout = Number(addQuery.upstream_header_timeout)
-      addQuery.upstream_idle_timeout = Number(addQuery.upstream_idle_timeout)
-      addQuery.upstream_max_idle = Number(addQuery.upstream_max_idle)
       serviceAddHTTP(addQuery).then((response) => {
-        this.submitButtonDisabled = false
         this.$notify({
           title: 'Success',
           message: '添加成功',
           type: 'success',
           duration: 2000
-        }).catch(() => {
-          this.submitButtonDisabled = false
         })
       })
     }

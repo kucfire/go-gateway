@@ -95,7 +95,7 @@ func TranslationMiddleware() gin.HandlerFunc {
 			// 验证方法：dto.ServiceAddHTTPInput.IPList
 			val.RegisterValidation("valid_ip_list", func(fl validator.FieldLevel) bool {
 				// return fl.Field().String() == "admin"
-				for _, ms := range strings.Split(fl.Field().String(), ",") {
+				for _, ms := range strings.Split(fl.Field().String(), "\n") {
 					if matched, _ := regexp.Match(`^\S+\:\d+$`, []byte(ms)); !matched {
 						return false
 					}
@@ -105,7 +105,7 @@ func TranslationMiddleware() gin.HandlerFunc {
 			// 验证方法：dto.ServiceAddHTTPInput.WeightList
 			val.RegisterValidation("valid_weight_list", func(fl validator.FieldLevel) bool {
 				// return fl.Field().String() == "admin"
-				for _, ms := range strings.Split(fl.Field().String(), ",") {
+				for _, ms := range strings.Split(fl.Field().String(), "\n") {
 					if matched, _ := regexp.Match(`^\d+$`, []byte(ms)); !matched {
 						fmt.Println(ms)
 						return false

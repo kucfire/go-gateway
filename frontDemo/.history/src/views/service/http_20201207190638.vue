@@ -109,15 +109,15 @@ export default {
         open_auth: 0,
         white_list: '',
         black_list: '',
-        clientip_flow_limit: '',
-        service_flow_limit: '',
+        clientip_flow_limit: undefined,
+        service_flow_limit: undefined,
         round_type: 0,
         ip_list: '',
         weight_list: '',
-        upstream_connect_timeout: '',
-        upstream_header_timeout: '',
-        upstream_idle_timeout: '',
-        upstream_max_idle: ''
+        upstream_connect_timeout: undefined,
+        upstream_header_timeout: undefined,
+        upstream_idle_timeout: undefined,
+        upstream_max_idle: undefined
       }
     }
   },
