@@ -58,6 +58,7 @@ func (service *ServiceController) ServiceList(c *gin.Context) {
 		middleware.ResponseError(c, 2000, err)
 		return
 	}
+	fmt.Println(1)
 
 	// 连接池
 	tx, err := lib.GetGormPool("default")
@@ -273,12 +274,12 @@ func (service *ServiceController) ServiceStat(c *gin.Context) {
 
 	TodayList := []int64{}
 	for i := 0; i < time.Now().Hour(); i++ {
-		TodayList = append(TodayList, 0)
+		TodayList = append(TodayList, 10)
 	}
 
 	YesterdayList := []int64{}
 	for i := 0; i < 24; i++ {
-		YesterdayList = append(YesterdayList, 0)
+		YesterdayList = append(YesterdayList, 20)
 	}
 
 	middleware.ResponseSuccess(c, &dto.ServiceStatOutput{
@@ -827,7 +828,7 @@ func (adminligin *ServiceController) ServiceAddTCP(c *gin.Context) {
 
 	// 存储服务信息
 	serviceModel := &dao.ServiceInfo{
-		LoadType:    public.LoadTypeGRPC,
+		LoadType:    public.LoadTypeTCP,
 		ServiceName: params.ServiceName,
 		ServiceDesc: params.ServiceDesc,
 	}
@@ -852,8 +853,8 @@ func (adminligin *ServiceController) ServiceAddTCP(c *gin.Context) {
 	}
 
 	// 存储TCPRule
-	tcpRule := &dao.ServiceGRPCRule{
-		ServiceID: infoSearch.ID,
+	tcpRule := &dao.ServiceTCPRule{
+		ServiceID: serviceModel.ID,
 		Port:      params.Port,
 	}
 	if err := tcpRule.Save(c, tx); err != nil {

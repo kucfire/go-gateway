@@ -1,15 +1,43 @@
 <template>
   <div class="chart-container">
-    <chart height="100%" width="100%" />
+    <chart height="100%" width="100%" :data="chartData" />
   </div>
 </template>
 
 <script>
 import Chart from './components/LineStat'
+import { serviceStat, serviceDetail } from '@/api/service'
 
 export default {
-  name: 'ServiceStat',
-  components: { Chart }
+  name: 'ServiceChart',
+  components: { Chart },
+  data() {
+    return {
+      chartData: {
+        'title': '',
+        'today': [],
+        'yesterday': []
+      }
+    }
+  },
+  created() {
+    const id = this.$route.params && this.$route.params.id
+    this.fecthStat(id)
+  },
+  methods: {
+    fecthStat(id) {
+      const query = { 'id': id }
+      serviceStat(query).then((responseStat) => {
+        serviceDetail(query).then((responseDetail) => {
+          this.chartData = {
+            'title': responseDetail.data.info.service_name + '服务统计',
+            'today': responseStat.data.today,
+            'yesterday': responseStat.data.yesterday
+          }
+        })
+      })
+    }
+  }
 }
 </script>
 

@@ -3,8 +3,8 @@
     <el-row>
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span v-if="isEdit===false">创建HTTP服务</span>
-          <span v-if="isEdit===true">修改HTTP服务</span>
+          <span v-if="isEdit===false">创建GRPC服务</span>
+          <span v-if="isEdit===true">修改GRPC服务</span>
         </div>
         <div style="margin-bottom:80px;">
           <el-form ref="form" :model="form" label-width="140px">

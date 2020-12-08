@@ -173,7 +173,7 @@ values
 
 /*
     select * from go_gateway.gateway_service_access_control 查询测试数据是否添加成功
-    delete from go_gateway.gateway_service_access_control 删除测试数据
+    delete from go_gateway.gateway_service_access_control where service_id = 72 删除测试数据
 */
 
 -- -------------------------------------------------------------------
@@ -398,6 +398,7 @@ values
 
 /*
     select * from go_gateway.gateway_service_tcp_rule 查询测试数据是否添加成功
+    update go_gateway.gateway_service_tcp_rule set service_id = 73 where id = 182
     delete from go_gateway.gateway_service_tcp_rule 删除测试数据
 */
 
