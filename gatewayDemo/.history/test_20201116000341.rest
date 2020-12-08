@@ -1,7 +1,0 @@
-POST http://localhost:8880/admin_login/login HTTP/1.1
-content-type: application/json
-
-{
-    "username":"1111",
-    "password":"2222"
-}

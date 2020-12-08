@@ -1,0 +1,7 @@
+# 忽略所有本地.history
+.history/
+frontDemo/.history/
+gatewayDemo/.history/
+
+# 忽略log
+gatewayDemo/logs/
