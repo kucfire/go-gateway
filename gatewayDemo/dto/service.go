@@ -76,7 +76,7 @@ type ServiceAddHTTPInput struct {
 	// 服务名称
 	ServiceName string `json:"service_name" form:"service_name" comment:"服务名称" example:"" validate:"required,valid_service_name"`
 	// 服务描述
-	ServiceDesc string `json:"service_desc" form:"serbice_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
+	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
 
 	// db.gateway_service_http_rule
 	// 接入类型
@@ -197,7 +197,7 @@ type ServiceAddGRPCInput struct {
 	// 服务名称
 	ServiceName string `json:"service_name" form:"service_name" comment:"服务名称" example:"" validate:"required,valid_service_name"`
 	// 服务描述
-	ServiceDesc string `json:"serbice_desc" form:"serbice_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
+	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
 
 	// db.gateway_service_grpc_rule
 	// 接入类型
@@ -225,7 +225,7 @@ type ServiceAddGRPCInput struct {
 	// 权重列表
 	WeightList string `json:"weight_list" form:"weight_list" comment:"权重列表" example:"" validate:"required,valid_weight_list"`
 	// 禁用ip列表
-	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:"required,valid_weight_list"`
+	ForbidList string `json:"forbid_list" form:"forbid_list" comment:"禁用ip列表" example:"" validate:""`
 }
 
 func (params *ServiceAddGRPCInput) BindingValidParams(c *gin.Context) error {
@@ -286,7 +286,7 @@ type ServiceAddTCPInput struct {
 	// 服务名称
 	ServiceName string `json:"service_name" form:"service_name" comment:"服务名称" example:"" validate:"required,valid_service_name"`
 	// 服务描述
-	ServiceDesc string `json:"service_desc" form:"serbice_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
+	ServiceDesc string `json:"service_desc" form:"service_desc" comment:"服务描述" example:"" validate:"required,max=255,min=1"`
 
 	// db.gateway_service_tcp_rule
 	// 接入类型

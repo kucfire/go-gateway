@@ -17,19 +17,9 @@
       >
         搜索
       </el-button>
-      <router-link :to="'/service/service_create_http'">
+      <router-link :to="'/app/app_add'">
         <el-button class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit">
-          添加HTTP服务
-        </el-button>
-      </router-link>
-      <router-link :to="'/service/service_create_http'">
-        <el-button class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit">
-          添加TCP服务
-        </el-button>
-      </router-link>
-      <router-link :to="'/service/service_create_http'">
-        <el-button class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit">
-          添加GRPC服务
+          添加租客
         </el-button>
       </router-link>
     </div>
@@ -48,27 +38,22 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="服务名称" min-width="100px">
+      <el-table-column label="app_id" min-width="100px">
         <template slot-scope="{ row }">
-          <span>{{ row.service_name }}</span>
+          <span>{{ row.app_id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="服务描述" min-width="120px">
+      <el-table-column label="租户名称" min-width="100px">
         <template slot-scope="{ row }">
-          <span>{{ row.service_desc }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="类型" min-width="60px">
+      <el-table-column label="密钥" min-width="120px">
         <template slot-scope="{ row }">
-          <span>{{ row.load_type | loadTypeFilter }}</span>
+          <span>{{ row.secret }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="服务地址" min-width="160px">
-        <template slot-scope="{ row }">
-          <span>{{ row.service_addr }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="QPS" min-width="50px">
+      <el-table-column label="QPS" min-width="70px">
         <template slot-scope="{ row }">
           <span>{{ row.qps }}</span>
         </template>
@@ -78,11 +63,6 @@
           <span>{{ row.qpd }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="节点数" min-width="60px">
-        <template slot-scope="{ row }">
-          <span>{{ row.total_node }}</span>
-        </template>
-      </el-table-column>
       <el-table-column
         label="操作"
         align="center"
@@ -90,18 +70,10 @@
         class-name="small-padding fixed-width"
       >
         <template slot-scope="{ row, $index }">
-          <router-link :to="'/service/service_stat/'+row.id">
+          <router-link :to="'/app/app_stat/'+row.id">
             <el-button type="primary" size="mini"> 统计 </el-button>
           </router-link>
-          <router-link v-if="row.load_type===0" :to="'/service/service_edit_http/'+row.id">
-            <!-- <router-link :to="'/service/service_edit_http'"> -->
-            <el-button type="primary" size="mini"> 修改 </el-button>
-          </router-link>
-          <router-link v-if="row.load_type===1" :to="'/service/service_edit_tcp/'+row.id">
-            <!-- <router-link :to="'/service/service_edit_http'"> -->
-            <el-button type="primary" size="mini"> 修改 </el-button>
-          </router-link>
-          <router-link v-if="row.load_type===2" :to="'/service/service_edit_grpc/'+row.id">
+          <router-link :to="'/app/app_update/'+row.id">
             <!-- <router-link :to="'/service/service_edit_http'"> -->
             <el-button type="primary" size="mini"> 修改 </el-button>
           </router-link>
@@ -127,31 +99,25 @@
 </template>
 
 <script>
-import { serviceList, serviceDelete } from '@/api/service'
+import { appList, appDelete } from '@/api/app'
 import waves from '@/directive/waves' // waves directive
 // import { parseTime } from "@/utils";
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-const loadTypeOptions = [
-  { key: '0', display_name: 'HTTP' },
-  { key: '1', display_name: 'TCP' },
-  { key: '2', display_name: 'GRPC' }
-]
-
-// arr to obj, such as { CN : "China", US : "USA" }
-const loadTypeKeyValue = loadTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+// // arr to obj, such as { CN : "China", US : "USA" }
+// const loadTypeKeyValue = loadTypeOptions.reduce((acc, cur) => {
+//   acc[cur.key] = cur.display_name
+//   return acc
+// }, {})
 
 export default {
-  name: 'ServiceList',
+  name: 'AppList',
   components: { Pagination },
   directives: { waves },
   filters: {
-    loadTypeFilter(type) {
-      return loadTypeKeyValue[type]
-    }
+    // loadTypeFilter(type) {
+    //   return loadTypeKeyValue[type]
+    // }
   },
   data() {
     return {
@@ -175,7 +141,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      serviceList(this.listQuery).then((response) => {
+      appList(this.listQuery).then((response) => {
         this.total = response.data.total
         this.list = response.data.list
 
@@ -199,7 +165,7 @@ export default {
           const deleteQuery = {
             id: row.id
           }
-          serviceDelete(deleteQuery).then((response) => {
+          appDelete(deleteQuery).then((response) => {
             this.$notify({
               title: 'Success',
               message: '删除成功',

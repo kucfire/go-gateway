@@ -37,7 +37,7 @@ type AppListItemOutput struct {
 	// 服务描述
 	Name string `json:"name" form:"name"`
 	// 类型
-	Sercet string `json:"sercet" form:"sercet"`
+	Secret string `json:"secret" form:"sercet"`
 	// 服务地址
 	WhiteIPS string `json:"white_ips" form:"white_ips"`
 	// QPS

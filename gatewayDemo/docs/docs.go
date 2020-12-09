@@ -1108,7 +1108,7 @@ var doc = `{
                 "access_control": {
                     "$ref": "#/definitions/dao.ServiceAccessControl"
                 },
-                "gprc": {
+                "grpc": {
                     "$ref": "#/definitions/dao.ServiceGRPCRule"
                 },
                 "http": {
@@ -1471,10 +1471,9 @@ var doc = `{
         "dto.ServiceAddGRPCInput": {
             "type": "object",
             "required": [
-                "forbid_list",
                 "ip_list",
                 "port",
-                "serbice_desc",
+                "service_desc",
                 "service_name",
                 "weight_list"
             ],
@@ -1511,7 +1510,7 @@ var doc = `{
                     "description": "db.gateway_service_load_balance\n轮询方式 0=random 1=round_robin 2=wieght_round_robin 3=ip_hash",
                     "type": "integer"
                 },
-                "serbice_desc": {
+                "service_desc": {
                     "description": "服务描述",
                     "type": "string"
                 },

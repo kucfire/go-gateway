@@ -142,17 +142,34 @@ export const constantRoutes = [
   {
     path: '/app',
     component: Layout,
-    name: '租户管理',
-    meta: {
-      title: '租户管理',
-      icon: 'user'
-    },
+    redirect: '/app/list',
     children: [
       {
         path: 'app_list',
         component: () => import('@/views/app/list'),
         name: '租户列表',
         meta: { title: '租户列表', icon: 'user', affix: true }
+      },
+      {
+        path: 'app_stat/:id(\\d+)',
+        component: () => import('@/views/app/stat'),
+        name: '租户统计',
+        meta: { title: '租户统计', icon: 'user', affix: false },
+        hidden: true
+      },
+      {
+        path: 'app_update/:id(\\d+)',
+        component: () => import('@/views/app/app'),
+        name: '修改租户信息',
+        meta: { title: '修改租户信息', icon: 'user', affix: false },
+        hidden: true
+      },
+      {
+        path: 'app_add',
+        component: () => import('@/views/app/app'),
+        name: '添加租户信息',
+        meta: { title: '添加租户信息', icon: 'user', affix: false },
+        hidden: true
       }
     ]
   }

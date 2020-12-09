@@ -76,7 +76,7 @@ func (app *AppController) AppList(c *gin.Context) {
 			ID:       listItem.ID,
 			AppID:    listItem.AppID,
 			Name:     listItem.Name,
-			Sercet:   listItem.Secret,
+			Secret:   listItem.Secret,
 			WhiteIPS: listItem.WhiteIps,
 			QPD:      listItem.QPD,
 			QPS:      listItem.QPS,
@@ -117,8 +117,8 @@ func (app *AppController) AppAdd(c *gin.Context) {
 		return
 	}
 
-	//事务开始
-	// tx = tx.Begin()
+	// 事务开始
+	tx = tx.Begin()
 
 	// 校验服务信息
 	appInfo := &dao.AppInfo{
@@ -152,8 +152,8 @@ func (app *AppController) AppAdd(c *gin.Context) {
 		return
 	}
 
-	// // 提交事务
-	// tx.Commit()
+	// 提交事务
+	tx.Commit()
 
 	middleware.ResponseSuccess(c, "app msg add successful")
 }

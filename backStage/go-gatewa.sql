@@ -417,49 +417,49 @@ values
 --
 -- indexes for table gateway_admin
 --
-alter table gateway_admin
+alter table go_gateway.go_gateway.gateway_admin
 add primary key (`id`);
 
 --
 -- indexes for table gateway_app
 --
-alter table gateway_app
+alter table go_gateway.go_gateway.gateway_app
 add primary key (`id`);
 
 --
 -- index for table gateway_service_access_control
 --
-alter table gateway_service_access_control
+alter table go_gateway.gateway_service_access_control
 add primary key (`id`);
 
 --
 -- indexes for table gateway_service_grpc_rule
 --
-alter table gateway_service_grpc_rule
+alter table go_gateway.gateway_service_grpc_rule
 add primary key (`id`);
 
 -- 
 -- indexes for table gateway_service_http_rule
 --
-alter table gateway_service_http_rule
+alter table go_gateway.gateway_service_http_rule
 add primary key (`id`);
 
 --
 -- indexes for table gateway_service_info
 --
-alter table gateway_service_info
+alter table go_gateway.gateway_service_info
 add primary key (`id`);
 
 --
 -- indexes for table gateway_service_load_balance
 --
-alter table gateway_service_load_balance
+alter table go_gateway.gateway_service_load_balance
 add primary key (`id`);
 
 --
 -- indexes for table gateway_service_tcp_rule
 --
-alter table gateway_service_tcp_rule
+alter table go_gateway.gateway_service_tcp_rule
 add primary key (`id`);
 
 --
@@ -477,49 +477,49 @@ add primary key (`id`);
 --
 -- 使用表auto_increment gateway_admin
 --
-alter table gateway_admin
+alter table go_gateway.gateway_admin
 modify `id` bigint(20) not null auto_increment comment '自增id', auto_increment=2;
 
 --
 -- 使用表auto_increment gateway_app
 --
-alter table gateway_app
+alter table go_gateway.gateway_app
 modify `id` bigint(20) not null auto_increment comment '自增id', auto_increment=35;
 
 --
 -- 使用表auto_increment gateway_service_access_control
 --
-alter table gateway_service_access_control
+alter table go_gateway.gateway_service_access_control
 modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=190;
 
 --
 -- 使用表auto_increment gateway_service_grpc_rule
 --
-alter table gateway_service_grpc_rule
+alter table go_gateway.gateway_service_grpc_rule
 modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=174;
 
 --
 -- 使用表auto_increment gateway_service_http_rule
 --
-alter table gateway_service_http_rule
+alter table go_gateway.gateway_service_http_rule
 modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=181;
 
 --
 -- 使用表auto_increment gateway_service_info
 --
-alter table gateway_service_info
+alter table go_gateway.gateway_service_info
 modify `id` bigint(20) unsigned not null auto_increment comment '自增主键', auto_increment=62;
 
 --
 -- 使用表auto_increment gateway_service_load_balance
 --
-alter table gateway_service_load_balance
+alter table go_gateway.gateway_service_load_balance
 modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=190;
 
 --
 -- 使用表auto_increment gateway_service_tcp_rule
 --
-alter table gateway_service_tcp_rule
+alter table go_gateway.gateway_service_tcp_rule
 modify `id` bigint(20) not null auto_increment comment '自增主键', auto_increment=182;
 
 -- ---------------------------------block end--------------------------------------|
