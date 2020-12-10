@@ -1,8 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {},
-        "license": {}
+        "contact": {}
     },
     "paths": {
         "/admin_info/changepwd": {
@@ -34,7 +33,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ChangePWDInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -69,7 +80,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AdminInfoOutput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -104,7 +127,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AdminLoginInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -128,7 +163,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AdminLoginInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -163,7 +210,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AppAddInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -196,7 +255,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -229,7 +300,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AppDeleteInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -275,7 +358,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AppListInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -308,7 +403,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -343,7 +450,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.AppUpdateInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -367,7 +486,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceStatOutput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -391,7 +522,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.PanelGroupDataOutput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -415,7 +558,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.DashServiceStatOutput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -450,7 +605,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceAddHTTPInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -485,7 +652,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceAddHTTPInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -520,7 +699,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceAddTCPInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -553,7 +744,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -586,7 +789,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dao.ServiceDetail"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -632,7 +847,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceListInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -665,7 +892,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceStatOutput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -700,7 +939,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceUpdateGRPCInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -735,7 +986,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceUpdateHTTPInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -770,7 +1033,19 @@
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/middleware.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ServiceUpdateTCPInput"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -778,6 +1053,217 @@
         }
     },
     "definitions": {
+        "dao.ServiceAccessControl": {
+            "type": "object",
+            "properties": {
+                "black_list": {
+                    "type": "string"
+                },
+                "clientip_flow_limit": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "open_auth": {
+                    "type": "integer"
+                },
+                "service_flow_limit": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "white_host_home": {
+                    "type": "string"
+                },
+                "white_list": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.ServiceDetail": {
+            "type": "object",
+            "properties": {
+                "access_control": {
+                    "$ref": "#/definitions/dao.ServiceAccessControl"
+                },
+                "grpc": {
+                    "$ref": "#/definitions/dao.ServiceGRPCRule"
+                },
+                "http": {
+                    "$ref": "#/definitions/dao.ServiceHTTPRule"
+                },
+                "info": {
+                    "$ref": "#/definitions/dao.ServiceInfo"
+                },
+                "load_balance": {
+                    "$ref": "#/definitions/dao.ServiceLoadBalance"
+                },
+                "tcp": {
+                    "$ref": "#/definitions/dao.ServiceTCPRule"
+                }
+            }
+        },
+        "dao.ServiceGRPCRule": {
+            "type": "object",
+            "properties": {
+                "header_transfor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dao.ServiceHTTPRule": {
+            "type": "object",
+            "properties": {
+                "header_transfor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "need_https": {
+                    "type": "integer"
+                },
+                "need_strip_uri": {
+                    "type": "integer"
+                },
+                "need_websocket": {
+                    "type": "integer"
+                },
+                "rule": {
+                    "type": "string"
+                },
+                "rule_type": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "url_rewrite": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.ServiceInfo": {
+            "type": "object",
+            "properties": {
+                "create_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "type": "integer"
+                },
+                "load_type": {
+                    "type": "integer"
+                },
+                "service_desc": {
+                    "type": "string"
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.ServiceLoadBalance": {
+            "type": "object",
+            "properties": {
+                "check_interval": {
+                    "type": "integer"
+                },
+                "check_method": {
+                    "type": "integer"
+                },
+                "check_timeout": {
+                    "type": "integer"
+                },
+                "forbid_list": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ip_list": {
+                    "type": "string"
+                },
+                "round_type": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                },
+                "upstream_connect_timeout": {
+                    "type": "integer"
+                },
+                "upstream_header_timeout": {
+                    "type": "integer"
+                },
+                "upstream_idle_timeout": {
+                    "type": "integer"
+                },
+                "upstream_max_idle": {
+                    "type": "integer"
+                },
+                "weight_list": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.ServiceTCPRule": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "service_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.AdminInfoOutput": {
+            "type": "object",
+            "properties": {
+                "avator": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "login_time": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "dto.AdminLoginInput": {
             "type": "object",
             "required": [
@@ -832,6 +1318,41 @@
                 }
             }
         },
+        "dto.AppDeleteInput": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "自增ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.AppListInput": {
+            "type": "object",
+            "required": [
+                "page_no",
+                "page_size"
+            ],
+            "properties": {
+                "info": {
+                    "description": "关键词",
+                    "type": "string"
+                },
+                "page_no": {
+                    "description": "页数",
+                    "type": "integer",
+                    "example": 1
+                },
+                "page_size": {
+                    "description": "每页条数",
+                    "type": "integer",
+                    "example": 20
+                }
+            }
+        },
         "dto.AppUpdateInput": {
             "type": "object",
             "required": [
@@ -876,6 +1397,52 @@
                 "password": {
                     "type": "string",
                     "example": "123456"
+                }
+            }
+        },
+        "dto.DashServiceStatListOutput2": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "description": "LoadType int    `json:\"load_type\"`",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.DashServiceStatOutput": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.DashServiceStatListOutput2"
+                    }
+                },
+                "legend": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "dto.PanelGroupDataOutput": {
+            "type": "object",
+            "properties": {
+                "app_num": {
+                    "type": "integer"
+                },
+                "current_qps": {
+                    "type": "integer"
+                },
+                "service_num": {
+                    "type": "integer"
+                },
+                "today_request_num": {
+                    "type": "integer"
                 }
             }
         },
@@ -1096,6 +1663,48 @@
                 "white_list": {
                     "description": "白名单ip",
                     "type": "string"
+                }
+            }
+        },
+        "dto.ServiceListInput": {
+            "type": "object",
+            "required": [
+                "page_no",
+                "page_size"
+            ],
+            "properties": {
+                "info": {
+                    "description": "关键词",
+                    "type": "string"
+                },
+                "page_no": {
+                    "description": "页数",
+                    "type": "integer",
+                    "example": 1
+                },
+                "page_size": {
+                    "description": "每页条数",
+                    "type": "integer",
+                    "example": 20
+                }
+            }
+        },
+        "dto.ServiceStatOutput": {
+            "type": "object",
+            "properties": {
+                "today": {
+                    "description": "今日统计结果",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "yesterday": {
+                    "description": "昨日统计结果",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },

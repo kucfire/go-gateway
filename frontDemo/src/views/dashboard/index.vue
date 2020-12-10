@@ -39,23 +39,20 @@ export default {
       },
       FlowStat: {
         'title': '今日流量统计',
-        'today': [220, 182, 191, 134, 150, 120, 110, 125, 145, 122, 165, 122],
-        'yesterday': [220, 182, 125, 145, 122, 191, 134, 150, 120, 110, 165, 122]
+        'today': [],
+        'yesterday': []
       },
       ServiceStat: {
         'title': '服务统计',
-        'legend': ['HTTP', 'GRPC', 'TCP'],
-        'series': [
-          { value: 100, name: 'HTTP' },
-          { value: 200, name: 'GRPC' },
-          { value: 300, name: 'TCP' }
-        ]
+        'legend': [],
+        'series': []
       }
     }
   },
   created() {
     this.fetchPanelGroupData()
     this.fetchFlowStat()
+    this.fetchServceStat()
   },
   methods: {
     fetchPanelGroupData() {
@@ -67,13 +64,13 @@ export default {
       flowStat({}).then(response => {
         this.FlowStat.today = response.data.today
         this.FlowStat.yesterday = response.data.yesterday
-      })
+      }).catch(() => {})
     },
     fetchServceStat() {
       serviceStat({}).then(response => {
-        this.ServiceStat.today = response.data.today
-        this.ServiceStat.yesterday = response.data.yesterday
-      })
+        this.ServiceStat.legend = response.data.legend
+        this.ServiceStat.series = response.data.data
+      }).catch(() => {})
     },
     handleSetLineChartData(type) {
       // this.lineChartData = lineChartData[type]

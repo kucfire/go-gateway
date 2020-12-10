@@ -43,6 +43,15 @@ export default {
       chart: null
     }
   },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        // this.setOptions(val)
+        this.initChart()
+      }
+    }
+  },
   mounted() {
     this.$nextTick(() => {
       this.initChart()
@@ -79,8 +88,8 @@ export default {
           {
             name: '服务占比',
             type: 'pie',
-            roseType: 'radius',
-            radius: [15, 95],
+            // roseType: 'radius',
+            radius: '50%',
             center: ['50%', '45%'],
             data: this.chartData.series,
             animationEasing: 'cubicInOut',

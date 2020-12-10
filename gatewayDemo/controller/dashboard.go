@@ -114,19 +114,24 @@ func (dashboard *DashBoardController) ServiceStat(c *gin.Context) {
 	}
 
 	legend := []string{}
-	for index, item := range list {
+	result := []dto.DashServiceStatListOutput2{}
+	for _, item := range list {
 		name, ok := public.LoadTypeMap[item.LoadType]
 		if !ok {
 			middleware.ResponseError(c, 2002, errors.New("LoadType not found"))
 			return
 		}
-		list[index].Name = name
-		legend = append(legend, item.Name)
+		// list[index].Name = name
+		result = append(result, dto.DashServiceStatListOutput2{
+			Name:  name,
+			Value: item.Value,
+		})
+		legend = append(legend, name)
 	}
 
 	out := &dto.DashServiceStatOutput{
 		Legend: legend,
-		Data:   list,
+		Data:   result,
 	}
 	middleware.ResponseSuccess(c, out)
 }
