@@ -1,142 +1,4 @@
 definitions:
-  dao.ServiceAccessControl:
-    properties:
-      black_list:
-        type: string
-      clientip_flow_limit:
-        type: integer
-      id:
-        type: integer
-      open_auth:
-        type: integer
-      service_flow_limit:
-        type: integer
-      service_id:
-        type: integer
-      white_host_home:
-        type: string
-      white_list:
-        type: string
-    type: object
-  dao.ServiceDetail:
-    properties:
-      access_control:
-        $ref: '#/definitions/dao.ServiceAccessControl'
-      grpc:
-        $ref: '#/definitions/dao.ServiceGRPCRule'
-      http:
-        $ref: '#/definitions/dao.ServiceHTTPRule'
-      info:
-        $ref: '#/definitions/dao.ServiceInfo'
-      load_balance:
-        $ref: '#/definitions/dao.ServiceLoadBalance'
-      tcp:
-        $ref: '#/definitions/dao.ServiceTCPRule'
-    type: object
-  dao.ServiceGRPCRule:
-    properties:
-      header_transfor:
-        type: string
-      id:
-        type: integer
-      port:
-        type: integer
-      service_id:
-        type: integer
-    type: object
-  dao.ServiceHTTPRule:
-    properties:
-      header_transfor:
-        type: string
-      id:
-        type: integer
-      need_https:
-        type: integer
-      need_strip_uri:
-        type: integer
-      need_websocket:
-        type: integer
-      rule:
-        type: string
-      rule_type:
-        type: integer
-      service_id:
-        type: integer
-      url_rewrite:
-        type: string
-    type: object
-  dao.ServiceInfo:
-    properties:
-      create_at:
-        type: string
-      id:
-        type: integer
-      is_delete:
-        type: integer
-      load_type:
-        type: integer
-      service_desc:
-        type: string
-      service_name:
-        type: string
-      update_at:
-        type: string
-    type: object
-  dao.ServiceLoadBalance:
-    properties:
-      check_interval:
-        type: integer
-      check_method:
-        type: integer
-      check_timeout:
-        type: integer
-      forbid_list:
-        type: string
-      id:
-        type: integer
-      ip_list:
-        type: string
-      round_type:
-        type: integer
-      service_id:
-        type: integer
-      upstream_connect_timeout:
-        type: integer
-      upstream_header_timeout:
-        type: integer
-      upstream_idle_timeout:
-        type: integer
-      upstream_max_idle:
-        type: integer
-      weight_list:
-        type: string
-    type: object
-  dao.ServiceTCPRule:
-    properties:
-      id:
-        type: integer
-      port:
-        type: integer
-      service_id:
-        type: integer
-    type: object
-  dto.AdminInfoOutput:
-    properties:
-      avator:
-        type: string
-      id:
-        type: integer
-      introduction:
-        type: string
-      login_time:
-        type: string
-      name:
-        type: string
-      roles:
-        items:
-          type: string
-        type: array
-    type: object
   dto.AdminLoginInput:
     properties:
       password:
@@ -177,31 +39,6 @@ definitions:
     - app_id
     - name
     type: object
-  dto.AppDeleteInput:
-    properties:
-      id:
-        description: 自增ID
-        type: integer
-    required:
-    - id
-    type: object
-  dto.AppListInput:
-    properties:
-      info:
-        description: 关键词
-        type: string
-      page_no:
-        description: 页数
-        example: 1
-        type: integer
-      page_size:
-        description: 每页条数
-        example: 20
-        type: integer
-    required:
-    - page_no
-    - page_size
-    type: object
   dto.AppUpdateInput:
     properties:
       app_id:
@@ -235,37 +72,6 @@ definitions:
     required:
     - originpassword
     - password
-    type: object
-  dto.DashServiceStatListOutput:
-    properties:
-      load_type:
-        type: integer
-      name:
-        type: string
-      value:
-        type: integer
-    type: object
-  dto.DashServiceStatOutput:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/dto.DashServiceStatListOutput'
-        type: array
-      legend:
-        items:
-          type: string
-        type: array
-    type: object
-  dto.PanelGroupDataOutput:
-    properties:
-      app_num:
-        type: integer
-      current_qps:
-        type: integer
-      service_num:
-        type: integer
-      today_request_num:
-        type: integer
     type: object
   dto.ServiceAddGRPCInput:
     properties:
@@ -456,36 +262,6 @@ definitions:
     - service_desc
     - service_name
     - weight_list
-    type: object
-  dto.ServiceListInput:
-    properties:
-      info:
-        description: 关键词
-        type: string
-      page_no:
-        description: 页数
-        example: 1
-        type: integer
-      page_size:
-        description: 每页条数
-        example: 20
-        type: integer
-    required:
-    - page_no
-    - page_size
-    type: object
-  dto.ServiceStatOutput:
-    properties:
-      today:
-        description: 今日统计结果
-        items:
-          type: integer
-        type: array
-      yesterday:
-        description: 昨日统计结果
-        items:
-          type: integer
-        type: array
     type: object
   dto.ServiceUpdateGRPCInput:
     properties:
@@ -721,6 +497,7 @@ definitions:
     type: object
 info:
   contact: {}
+  license: {}
 paths:
   /admin_info/changepwd:
     post:
@@ -741,12 +518,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ChangePWDInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 管理员密码修改
       tags:
       - 管理员接口
@@ -769,12 +541,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AdminInfoOutput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 管理员信息
       tags:
       - 管理员接口
@@ -797,12 +564,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AdminLoginInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 管理员登录
       tags:
       - 管理员接口
@@ -818,12 +580,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AdminLoginInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 管理员退出
       tags:
       - 管理员接口
@@ -846,12 +603,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AppAddInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 添加租户
       tags:
       - 租户管理
@@ -873,12 +625,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 租户删除
       tags:
       - 租户管理
@@ -900,12 +647,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AppDeleteInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 租户信息
       tags:
       - 租户管理
@@ -936,12 +678,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AppListInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 租户列表
       tags:
       - 租户管理
@@ -963,12 +700,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 租户统计
       tags:
       - 租户管理
@@ -991,12 +723,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.AppUpdateInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 租户更新
       tags:
       - 租户管理
@@ -1012,12 +739,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceStatOutput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 流量统计
       tags:
       - 大盘
@@ -1033,12 +755,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.PanelGroupDataOutput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 指标统计
       tags:
       - 大盘
@@ -1054,12 +771,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.DashServiceStatOutput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 服务统计
       tags:
       - 大盘rest
@@ -1082,12 +794,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceAddHTTPInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 添加GRPC服务
       tags:
       - 服务管理
@@ -1110,12 +817,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceAddHTTPInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 添加HTTP服务
       tags:
       - 服务管理
@@ -1138,12 +840,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceAddTCPInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 添加TCP服务
       tags:
       - 服务管理
@@ -1165,12 +862,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 服务删除
       tags:
       - 服务管理
@@ -1192,12 +884,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dao.ServiceDetail'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 服务信息
       tags:
       - 服务管理
@@ -1228,12 +915,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceListInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 服务列表
       tags:
       - 服务管理
@@ -1255,12 +937,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceStatOutput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 服务统计
       tags:
       - 服务管理
@@ -1283,12 +960,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceUpdateGRPCInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 修改GRPC服务
       tags:
       - 服务管理
@@ -1311,12 +983,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceUpdateHTTPInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 修改HTTP服务
       tags:
       - 服务管理
@@ -1339,12 +1006,7 @@ paths:
         "200":
           description: success
           schema:
-            allOf:
-            - $ref: '#/definitions/middleware.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/dto.ServiceUpdateTCPInput'
-              type: object
+            $ref: '#/definitions/middleware.Response'
       summary: 修改TCP服务
       tags:
       - 服务管理

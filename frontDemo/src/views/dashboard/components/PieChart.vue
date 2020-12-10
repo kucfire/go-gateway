@@ -20,7 +20,22 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '350px'
+    },
+    chartData: {
+      type: Object,
+      required: true,
+      default() {
+        return {
+          'title': '服务统计',
+          'legend': ['HTTP', 'GRPC', 'TCP'],
+          'series': [
+            { value: 100, name: 'HTTP' },
+            { value: 200, name: 'GRPC' },
+            { value: 300, name: 'TCP' }
+          ]
+        }
+      }
     }
   },
   data() {
@@ -45,6 +60,12 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
+        title: {
+          text: this.chartData.title,
+          textStyle: {
+            fontSize: 16
+          }
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -52,22 +73,16 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: this.chartData.legend
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '服务占比',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
-            center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            center: ['50%', '45%'],
+            data: this.chartData.series,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
