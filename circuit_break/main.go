@@ -15,8 +15,9 @@ import (
 func main() {
 	hystrixStreamHandler := hystrix.NewStreamHandler()
 	hystrixStreamHandler.Start()
-	go http.ListenAndServe(":8874", hystrixStreamHandler)
+	go http.ListenAndServe(":8074", hystrixStreamHandler)
 
+	// 向circuitSettings写入
 	hystrix.ConfigureCommand("kucfireText", // 第一个参数表示的是熔断器的命名
 		hystrix.CommandConfig{
 			Timeout:                1000, // 单次请求的超时时间，单位mm
@@ -36,7 +37,17 @@ func main() {
 			// time.Sleep(2 * time.Second)
 			log.Println("do server")
 			return nil
-		}, nil)
+		}, func(err error) error {
+			if err != nil {
+				if err == errors.New("server error") {
+					return nil
+				} else if err == errors.New("max concurrency") {
+					return nil
+				}
+				return errors.New("other error")
+			}
+			return nil
+		}) // feedback 可以为nil，一般是捕获hystrix.runFunc的错误进行处理
 		if err != nil {
 			log.Println("hystrix err:" + err.Error())
 			time.Sleep(1 * time.Second)
