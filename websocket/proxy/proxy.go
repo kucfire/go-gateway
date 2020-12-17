@@ -1,4 +1,4 @@
-package main
+package proxy
 
 import (
 	"bytes"
@@ -129,10 +129,12 @@ func NewLoadBalanceReverseProxy(c *middleware.SliceRouterContext, lb config.Load
 			log.Fatal(err)
 		}
 		targetQuery := target.RawQuery
+
 		req.URL.Scheme = target.Scheme
 		req.URL.Host = target.Host
 		req.URL.Path = singleJoiningSlash(target.Path, req.URL.Path)
-		// req.Host = target.Host
+		req.Host = target.Host
+		fmt.Println(target.Host)
 		if targetQuery == "" || req.URL.RawQuery == "" {
 			req.URL.RawQuery = targetQuery + req.URL.RawQuery
 		} else {
@@ -151,7 +153,7 @@ func NewLoadBalanceReverseProxy(c *middleware.SliceRouterContext, lb config.Load
 			return nil
 		}
 		var payload []byte
-		payload, err := ioutil.ReadAll(resp.Body)
+		// payload, err := ioutil.ReadAll(resp.Body)
 		var readErr error
 
 		//todo 部分章节功能补充3
@@ -172,9 +174,6 @@ func NewLoadBalanceReverseProxy(c *middleware.SliceRouterContext, lb config.Load
 
 		//异常请求时设置StatusCode
 		if resp.StatusCode != 200 {
-			if err != nil {
-				return err
-			}
 			payload = []byte("StatusCode error:" + string(payload))
 		}
 
@@ -195,7 +194,12 @@ func NewLoadBalanceReverseProxy(c *middleware.SliceRouterContext, lb config.Load
 		fmt.Println(err)
 	}
 
-	return &httputil.ReverseProxy{Director: director, Transport: transport, ModifyResponse: modifyFunc, ErrorHandler: errFunc}
+	return &httputil.ReverseProxy{
+		Director:       director,
+		Transport:      transport,
+		ModifyResponse: modifyFunc,
+		ErrorHandler:   errFunc,
+	}
 }
 
 func singleJoiningSlash(a, b string) string {
@@ -210,15 +214,30 @@ func singleJoiningSlash(a, b string) string {
 	return a + b
 }
 
-func Run() {
-	rb := factory.LoadBalanceFactory(factory.LbWeightRoundRobin)
-	rb.Add("http://127.0.0.1:2003", "50")
-	proxy := NewLoadBalanceReverseProxy(&middleware.SliceRouterContext{}, rb)
-	// proxy := NewMultipleHostsReverseProxy(rb)
-	log.Println("Start http server at:" + addr)
-	log.Fatal(http.ListenAndServe(addr, proxy))
-}
+// func Run2() {
+// 	rb := factory.LoadBalanceFactory(factory.LbWeightRoundRobin)
+// 	rb.Add("http://127.0.0.1:2003", "50")
+// 	proxy := NewLoadBalanceReverseProxy(&middleware.SliceRouterContext{}, rb)
+// 	// proxy := NewLoadBalanceReverseProxy(newSliceRouterContext(), rb)
+// 	log.Println("Starting httpserver at " + addr)
+// 	log.Fatal(http.ListenAndServe(addr, proxy))
+// }
 
-func main() {
-	Run()
+func Run() {
+	coreFunc := func(c *middleware.SliceRouterContext) http.Handler {
+		rb := factory.LoadBalanceFactory(factory.LbWeightRoundRobin)
+		rb.Add("http://127.0.0.1:2003", "50")
+		rb.Add("http://127.0.0.1:2004", "60")
+
+		return NewLoadBalanceReverseProxy(c, rb)
+		// proxy := NewMultipleHostsReverseProxy(rb)
+	}
+
+	// 初始化方法数组路由器
+	sliceRouter := middleware.NewSliceRouter()
+	// sliceRouter.Group("/").Use(middleware.RateLimiter())
+
+	routerHandler := middleware.NewSliceRouterHandler(coreFunc, sliceRouter)
+	log.Println("Start http server at:" + addr)
+	log.Fatal(http.ListenAndServe(addr, routerHandler))
 }

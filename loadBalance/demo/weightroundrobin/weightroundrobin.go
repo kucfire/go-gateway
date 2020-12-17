@@ -39,7 +39,7 @@ func (r *WeightRoundRobinBalance) Add(key ...string) error {
 }
 
 func (r *WeightRoundRobinBalance) Get(key string) (string, error) {
-	return "empty function", nil
+	return r.Next(), nil
 }
 
 func (r *WeightRoundRobinBalance) Next() string {

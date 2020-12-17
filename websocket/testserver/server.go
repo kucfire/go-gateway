@@ -1,17 +1,17 @@
-package main
+package testserver
 
 import (
-	"flag"
 	"log"
 	"net/http"
 	"text/template"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
 
 var (
 	// addr = flag.String("addr", "127.0.0.1:2003", "http service address")
-	addr = "127.0.0.1:2003"
+	// addr = "127.0.0.1:2003"
 
 	// use default options
 	upgrader = websocket.Upgrader{
@@ -101,6 +101,10 @@ var (
 	`))
 )
 
+type RealServer struct {
+	Addr string
+}
+
 func echo(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -130,17 +134,25 @@ func home(w http.ResponseWriter, r *http.Request) {
 	homeTemplate.Execute(w, "ws://"+r.Host+"/echo")
 }
 
-func Run() {
-	flag.Parse()
-	log.SetFlags(0)
-	http.HandleFunc("/echo", echo)
-	http.HandleFunc("/", home)
+func (r *RealServer) Run() {
+	// flag.Parse()
+	// log.SetFlags(0)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/echo", echo)
+	mux.HandleFunc("/", home)
+	server := &http.Server{
+		Addr:         r.Addr,
+		WriteTimeout: 3 * time.Second,
+		Handler:      mux,
+	}
 	// log.Println("Starting websocket server at " + *addr)
 	// log.Fatal(http.ListenAndServe(*addr, nil))
-	log.Println("Starting websocket server at " + addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+	log.Println("Starting websocket server at " + r.Addr)
+	go func() {
+		log.Fatal(server.ListenAndServe())
+	}()
 }
 
-func main() {
-	Run()
-}
+// func main() {
+
+// }
