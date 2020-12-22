@@ -68,10 +68,10 @@ func main() {
 	}
 
 	//
-	// watchNode(zkManager)
+	watchNode(zkManager)
 
 	//
-	watchData(zkManager)
+	// watchData(zkManager)
 
 	//关闭信号监听
 	quit := make(chan os.Signal)
