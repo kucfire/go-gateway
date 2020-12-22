@@ -17,17 +17,32 @@ const (
 	LbConsistentHash
 )
 
-func LoadBalanceFactory(lbtype LbType) config.LoadBalance {
+func LoadBalanceFactoryWithConf(lbtype LbType, mconf config.LoadBalanceConf) config.LoadBalance {
 	switch lbtype {
 	case LbConsistentHash:
-		return hashrandom.NewConsistentHashmapBalance(10, nil)
+		lb := hashrandom.NewConsistentHashmapBalance(10, nil)
+		lb.SetConf(mconf)
+		mconf.Attach(lb)
+		return lb
 	case LbRoundRobin:
-		return &randomRobin.RandomRobinBalance{}
+		lb := &randomRobin.RandomRobinBalance{}
+		lb.SetConf(mconf)
+		mconf.Attach(lb)
+		return lb
 	case LbWeightRoundRobin:
-		return &weightroundrobin.WeightRoundRobinBalance{}
+		lb := &weightroundrobin.WeightRoundRobinBalance{}
+		lb.SetConf(mconf)
+		mconf.Attach(lb)
+		return lb
 	case LbRandom:
-		return &random.RandomBalance{}
+		lb := &random.RandomBalance{}
+		lb.SetConf(mconf)
+		mconf.Attach(lb)
+		return lb
 	default:
-		return &random.RandomBalance{}
+		lb := &random.RandomBalance{}
+		lb.SetConf(mconf)
+		mconf.Attach(lb)
+		return lb
 	}
 }

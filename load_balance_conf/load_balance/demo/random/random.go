@@ -2,8 +2,10 @@ package random
 
 import (
 	"errors"
+	"fmt"
 	"go-gateway/load_balance_conf/config"
 	"math/rand"
+	"strings"
 )
 
 type RandomBalance struct {
@@ -43,5 +45,12 @@ func (r *RandomBalance) Next() string {
 }
 
 func (r *RandomBalance) Update() {
-
+	// 更新
+	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+		fmt.Println("update get conf : ", conf.GetConf())
+		r.rss = []string{}
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
 }

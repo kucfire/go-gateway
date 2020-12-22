@@ -2,6 +2,8 @@ package randomRobin
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 
 	"go-gateway/load_balance_conf/config"
 )
@@ -49,5 +51,12 @@ func (r *RandomRobinBalance) SetConf(conf config.LoadBalanceConf) {
 }
 
 func (r *RandomRobinBalance) Update() {
-
+	// 已注册在zk集群上
+	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+		fmt.Println("update get conf : ", conf.GetConf())
+		r.rss = []string{}
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
 }

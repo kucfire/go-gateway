@@ -2,8 +2,10 @@ package weightroundrobin
 
 import (
 	"errors"
+	"fmt"
 	"go-gateway/load_balance_conf/config"
 	"strconv"
+	"strings"
 )
 
 type WeightRoundRobinBalance struct {
@@ -81,5 +83,11 @@ func (r *WeightRoundRobinBalance) SetConf(conf config.LoadBalanceConf) {
 }
 
 func (r *WeightRoundRobinBalance) Update() {
-
+	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+		fmt.Println("update get conf : ", conf.GetConf())
+		r.rss = nil
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
 }
