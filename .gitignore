@@ -7,4 +7,4 @@ gatewayDemo/.history/
 gatewayDemo/logs/
 
 # 忽略frontDemo或gatewayDemo中不必要的文件
-frontDemo/
+/frontDemo/
