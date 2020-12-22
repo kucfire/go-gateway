@@ -5,6 +5,14 @@ import (
 	"go-gateway/load_balance_conf/zook"
 )
 
+type LoadBalance interface {
+	Add(...string) error
+	Get(string) (string, error)
+
+	//后期服务发现补充
+	Update()
+}
+
 type LoadBalanceConf interface {
 	Attach(o Observer)
 	GetConf() []string
