@@ -157,7 +157,7 @@ func singleJoiningSlash(a, b string) string {
 // 	log.Fatal(http.ListenAndServe(addr, routerHandler))
 // }
 
-func Run() {
+func RunServer() {
 	mconf, err := config.NewLoadBalanceZkConf("http://%s/base",
 		"/real_server",
 		[]string{"127.0.0.1:2181"},

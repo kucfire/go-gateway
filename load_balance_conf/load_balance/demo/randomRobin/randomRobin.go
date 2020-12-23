@@ -53,7 +53,15 @@ func (r *RandomRobinBalance) SetConf(conf config.LoadBalanceConf) {
 func (r *RandomRobinBalance) Update() {
 	// 已注册在zk集群上
 	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
-		fmt.Println("update get conf : ", conf.GetConf())
+		fmt.Println("RandomRobinBalance get conf : ", conf.GetConf())
+		r.rss = []string{}
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
+
+	if conf, ok := r.conf.(*config.LoadBalanceZkCheckConf); ok {
+		fmt.Println("RandomRobinBalance get conf : ", conf.GetConf())
 		r.rss = []string{}
 		for _, ip := range conf.GetConf() {
 			r.Add(strings.Split(ip, ",")...)

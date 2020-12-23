@@ -84,7 +84,14 @@ func (r *WeightRoundRobinBalance) SetConf(conf config.LoadBalanceConf) {
 
 func (r *WeightRoundRobinBalance) Update() {
 	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
-		fmt.Println("update get conf : ", conf.GetConf())
+		fmt.Println("WeightRoundRobinBalance get conf : ", conf.GetConf())
+		r.rss = nil
+		for _, ip := range conf.GetConf() {
+			r.Add(strings.Split(ip, ",")...)
+		}
+	}
+	if conf, ok := r.conf.(*config.LoadBalanceZkCheckConf); ok {
+		fmt.Println("WeightRoundRobinBalance get conf : ", conf.GetConf())
 		r.rss = nil
 		for _, ip := range conf.GetConf() {
 			r.Add(strings.Split(ip, ",")...)

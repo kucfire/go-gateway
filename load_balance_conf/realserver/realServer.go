@@ -15,10 +15,10 @@ import (
 func main() {
 	realServer1 := &RealServer{Addr: "127.0.0.1:2003"}
 	realServer1.Run()
-	// time.Sleep(2 * time.Second)
-	// realServer2 := &RealServer{Addr: "127.0.0.1:2004"}
-	// realServer2.Run()
-	// time.Sleep(2 * time.Second)
+	time.Sleep(2 * time.Second)
+	realServer2 := &RealServer{Addr: "127.0.0.1:2004"}
+	realServer2.Run()
+	time.Sleep(2 * time.Second)
 
 	// 监听关闭信号
 	quit := make(chan os.Signal)
