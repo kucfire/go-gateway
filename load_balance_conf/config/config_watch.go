@@ -129,21 +129,3 @@ func NewLoadBalanceZkCheckConf(format string, conf map[string]string) (*LoadBala
 	mconf.WatchConf()
 	return mconf, nil
 }
-
-// type Observer interface {
-// 	Update()
-// }
-
-// type LoadBalanceObserver struct {
-// 	ModuleConf *LoadBalanceZkConf
-// }
-
-// func (s *LoadBalanceObserver) Update() {
-// 	fmt.Println("Update get conf : ", s.ModuleConf.GetConf())
-// }
-
-// func NewLoadBalanceObserver(conf *LoadBalanceZkConf) *LoadBalanceObserver {
-// 	return &LoadBalanceObserver{
-// 		ModuleConf: conf,
-// 	}
-// }
