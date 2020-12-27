@@ -2,7 +2,6 @@ package http_proxy_router
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -11,6 +10,8 @@ import (
 
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
+
+	"gatewayDemo/middleware"
 )
 
 var (
@@ -19,9 +20,10 @@ var (
 )
 
 func HttpServerRun() {
-	fmt.Println((&lib.ConfBase.DebugMode == nil))
 	gin.SetMode(lib.ConfBase.DebugMode)
-	r := InitRouter()
+	r := InitRouter(
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog())
 	HttpSrvHandler = &http.Server{
 		Addr:           lib.GetStringConf("proxy.http.addr"),
 		Handler:        r,
@@ -46,9 +48,11 @@ func HttpServerStop() {
 }
 
 func HttpsServerRun() {
-	fmt.Println((&lib.ConfBase.DebugMode == nil))
 	gin.SetMode(lib.ConfBase.DebugMode)
-	r := InitRouter()
+	// 全局中间件
+	r := InitRouter(
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog())
 	HttpsSrvHandler = &http.Server{
 		Addr:           lib.GetStringConf("proxy.https.addr"),
 		Handler:        r,
@@ -59,7 +63,9 @@ func HttpsServerRun() {
 
 	log.Printf(" [INFO] https_proxy_run:%s\n", lib.GetStringConf("proxy.https.addr"))
 	if err := HttpsSrvHandler.ListenAndServeTLS(tlstest.Path("server.crt"), tlstest.Path("server.key")); err != nil {
-		log.Fatalf(" [ERROR] https_proxy_run:%s err:%v\n", lib.GetStringConf("proxy.https.addr"), err)
+		log.Fatalf(" [ERROR] https_proxy_run:%s err:%v\n",
+			lib.GetStringConf("proxy.https.addr"),
+			err)
 	}
 }
 

@@ -2,12 +2,14 @@ package main
 
 import (
 	"flag"
-	"gatewayDemo/http_proxy_router"
-	"gatewayDemo/router"
 	"os"
 	"os/signal"
 	"runtime"
 	"syscall"
+
+	"gatewayDemo/dao"
+	"gatewayDemo/http_proxy_router"
+	"gatewayDemo/router"
 
 	"github.com/e421083458/golang_common/lib"
 )
@@ -58,6 +60,11 @@ func main() {
 	} else {
 		lib.InitModule(*conf, []string{"base", "mysql", "redis"})
 		defer lib.Destroy()
+		// 服务启动时直接加载
+		dao.ServiceManagerHandler.LoadOnce()
+		// if err := dao.ServiceManagerHandler.LoadOnce(); err != nil {
+		// 	panic(err)
+		// }
 
 		go func() {
 			http_proxy_router.HttpServerRun()
@@ -75,14 +82,15 @@ func main() {
 	}
 }
 
-func main2() {
-	lib.InitModule("./conf/dev/", []string{"base", "mysql", "redis"})
-	defer lib.Destroy()
-	http_proxy_router.HttpServerRun()
+// func main() {
+// 	// 如果configPath为空，则从命令行中‘-config=。/conf/prod/‘中读取。
+// 	lib.InitModule("./conf/dev/", []string{"base", "mysql", "redis"})
+// 	defer lib.Destroy()
+// 	router.HttpServerRun()
 
-	quit := make(chan os.Signal)
-	signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
+// 	quit := make(chan os.Signal)
+// 	signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
+// 	<-quit
 
-	http_proxy_router.HttpServerStop()
-}
+// 	router.HttpServerStop()
+// }

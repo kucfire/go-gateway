@@ -9,7 +9,7 @@ require (
 	github.com/e421083458/golang_common v1.1.2
 	github.com/e421083458/gorm v1.0.1
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/garyburd/redigo v1.6.2
+	github.com/garyburd/redigo v1.6.2 // indirect
 	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.19.15 // indirect
@@ -27,6 +27,7 @@ require (
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
+	github.com/samuel/go-zookeeper v0.0.0-20201211165307-7117e9ea2414
 	github.com/spf13/afero v1.4.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect

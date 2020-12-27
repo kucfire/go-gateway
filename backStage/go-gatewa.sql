@@ -14,7 +14,7 @@ create database if not exists go_gateway
 default character set utf8
 default collate utf8_general_ci;
 
-/* !drop database if exists go_gateway*/
+/* !drop database if exists go_gateway */
 /* !SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') 
     FROM information_schema.tables 
     WHERE table_schema = 'go_gateway' 检索出所有可以删除的表的语句 */
@@ -417,13 +417,13 @@ values
 --
 -- indexes for table gateway_admin
 --
-alter table go_gateway.go_gateway.gateway_admin
+alter table go_gateway.gateway_admin
 add primary key (`id`);
 
 --
 -- indexes for table gateway_app
 --
-alter table go_gateway.go_gateway.gateway_app
+alter table go_gateway.gateway_app
 add primary key (`id`);
 
 --

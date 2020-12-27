@@ -1,8 +1,12 @@
 package dao
 
 import (
+	"fmt"
 	"gatewayDemo/public"
+	"gatewayDemo/reverse_proxy/load_balance_conf/config"
+	"gatewayDemo/reverse_proxy/load_balance_conf/load_balance/factory"
 	"strings"
+	"sync"
 
 	"github.com/e421083458/gorm"
 	"github.com/gin-gonic/gin"
@@ -47,3 +51,63 @@ func (t *ServiceLoadBalance) Save(c *gin.Context, tx *gorm.DB) error {
 func (t *ServiceLoadBalance) GetIPList() []string {
 	return strings.Split(t.IPList, ",")
 }
+
+func (t *ServiceLoadBalance) GetWeightList() []string {
+	return strings.Split(t.WeightList, ",")
+}
+
+var LoadBalanceHandler *LoadBalancer
+
+func init() {
+	LoadBalanceHandler = NewLoadBalancer()
+}
+
+type LoadBalancer struct {
+	// 服务较多时，可以用
+	LoadBalanceMap   map[string]config.LoadBalance
+	LoadBalanceSlice []config.LoadBalance
+	Locker           sync.RWMutex
+	// init             sync.Once
+	// errMsg           error
+}
+
+func NewLoadBalancer() *LoadBalancer {
+	return &LoadBalancer{
+		LoadBalanceMap:   map[string]config.LoadBalance{},
+		LoadBalanceSlice: []config.LoadBalance{},
+		Locker:           sync.RWMutex{},
+	}
+}
+
+func (lbr *LoadBalancer) GetLoadBalance(service *ServiceDetail) (config.LoadBalance, error) {
+	// 判断协议是否需要添加加密协议
+	schema := "http"
+	if service.HTTPRule.NeedHTTPS == 1 {
+		schema = "https"
+	}
+
+	prefix := ""
+	if service.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL {
+		prefix = service.HTTPRule.Rule
+	}
+
+	// ip列表设置
+	ipList := service.LoadBalance.GetIPList()
+	weightList := service.LoadBalance.GetWeightList()
+	ipconf := map[string]string{}
+	for i, list := range ipList {
+		ipconf[list] = weightList[i]
+	}
+
+	// zk设置
+	mconf, err := config.NewLoadBalanceZkCheckConf( // "http://%s/base",
+		fmt.Sprintf("%s://%s%s", schema, prefix), ipconf)
+	if err != nil {
+		return nil, err
+	}
+
+	// 负载均衡设置
+	return factory.LoadBalanceFactoryWithConf(factory.LbWeightRoundRobin, mconf), nil
+}
+
+// 连接池设置
