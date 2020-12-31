@@ -115,19 +115,19 @@ func (r *ConsistentHashmapBalance) Next() string {
 
 func (r *ConsistentHashmapBalance) Update() {
 	// 已注册在zk集群上
-	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
-		fmt.Println("ConsistentHashmapBalance get conf : ", conf.GetConf())
-		r.keys = nil
-		r.hashMap = nil
-		for _, ip := range conf.GetConf() {
-			r.Add(strings.Split(ip, ",")...)
-		}
-	}
+	// if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+	// 	fmt.Println("ConsistentHashmapBalance get conf : ", conf.GetConf())
+	// 	r.keys = nil
+	// 	r.hashMap = nil
+	// 	for _, ip := range conf.GetConf() {
+	// 		r.Add(strings.Split(ip, ",")...)
+	// 	}
+	// }
 
 	if conf, ok := r.conf.(*config.LoadBalanceZkCheckConf); ok {
 		fmt.Println("ConsistentHashmapBalance get conf : ", conf.GetConf())
 		r.keys = nil
-		r.hashMap = nil
+		r.hashMap = map[uint32]string{}
 		for _, ip := range conf.GetConf() {
 			r.Add(strings.Split(ip, ",")...)
 		}

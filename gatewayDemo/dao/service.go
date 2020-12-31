@@ -2,7 +2,6 @@ package dao
 
 import (
 	"errors"
-	"fmt"
 	"gatewayDemo/dto"
 	"gatewayDemo/public"
 	"net/http/httptest"
@@ -74,7 +73,7 @@ func (s *ServiceManager) HTTPAccessMode(c *gin.Context) (*ServiceDetail, error) 
 
 		// 判断匹配类型是否为url前缀
 		if serviceItem.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL {
-			fmt.Println("rule : ", serviceItem.HTTPRule.Rule)
+			// fmt.Println("rule : ", serviceItem.HTTPRule.Rule)
 			if strings.HasPrefix(path, serviceItem.HTTPRule.Rule) {
 				return serviceItem, nil
 			}

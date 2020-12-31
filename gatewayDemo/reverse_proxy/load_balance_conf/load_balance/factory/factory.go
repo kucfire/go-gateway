@@ -23,26 +23,31 @@ func LoadBalanceFactoryWithConf(lbtype LbType, mconf config.LoadBalanceConf) con
 		lb := hashrandom.NewConsistentHashmapBalance(10, nil)
 		lb.SetConf(mconf)
 		mconf.Attach(lb)
+		lb.Update()
 		return lb
 	case LbRoundRobin:
 		lb := &randomRobin.RandomRobinBalance{}
 		lb.SetConf(mconf)
 		mconf.Attach(lb)
+		lb.Update()
 		return lb
 	case LbWeightRoundRobin:
 		lb := &weightroundrobin.WeightRoundRobinBalance{}
 		lb.SetConf(mconf)
 		mconf.Attach(lb)
+		lb.Update()
 		return lb
 	case LbRandom:
 		lb := &random.RandomBalance{}
 		lb.SetConf(mconf)
 		mconf.Attach(lb)
+		lb.Update()
 		return lb
 	default:
 		lb := &random.RandomBalance{}
 		lb.SetConf(mconf)
 		mconf.Attach(lb)
+		lb.Update()
 		return lb
 	}
 }

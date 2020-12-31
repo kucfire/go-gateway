@@ -93,8 +93,8 @@ func (s *LoadBalanceZkCheckConf) WatchConf() {
 			sort.Strings(changeList)
 			sort.Strings(s.activeList)
 			if !reflect.DeepEqual(changeList, s.activeList) {
-				fmt.Println(changeList)
-				fmt.Println(s.activeList)
+				// fmt.Println(changeList)
+				// fmt.Println(s.activeList)
 				s.UpdateConf(changeList)
 			}
 			// 心跳检测间隔

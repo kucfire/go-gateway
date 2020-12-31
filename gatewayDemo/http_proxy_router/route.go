@@ -20,6 +20,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 使用HTTP中间件
-	router.Use(http_proxy_middleware.HTTPAccessModeMiddleware())
+	router.Use(http_proxy_middleware.HTTPAccessModeMiddleware(),
+		http_proxy_middleware.HTTPReverseProxyMiddleware())
 	return router
 }

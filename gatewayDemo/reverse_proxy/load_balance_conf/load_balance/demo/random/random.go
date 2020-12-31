@@ -45,14 +45,14 @@ func (r *RandomBalance) Next() string {
 }
 
 func (r *RandomBalance) Update() {
-	// 更新
-	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
-		fmt.Println("RandomBalance get conf : ", conf.GetConf())
-		r.rss = []string{}
-		for _, ip := range conf.GetConf() {
-			r.Add(strings.Split(ip, ",")...)
-		}
-	}
+	// // 更新
+	// if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+	// 	fmt.Println("RandomBalance get conf : ", conf.GetConf())
+	// 	r.rss = []string{}
+	// 	for _, ip := range conf.GetConf() {
+	// 		r.Add(strings.Split(ip, ",")...)
+	// 	}
+	// }
 
 	if conf, ok := r.conf.(*config.LoadBalanceZkCheckConf); ok {
 		fmt.Println("RandomBalance get conf : ", conf.GetConf())

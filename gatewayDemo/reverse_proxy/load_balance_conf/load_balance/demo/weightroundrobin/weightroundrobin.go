@@ -50,6 +50,7 @@ func (r *WeightRoundRobinBalance) Get(key string) (string, error) {
 
 func (r *WeightRoundRobinBalance) Next() string {
 	total := 0
+	// fmt.Println(r.rss)
 	var best *WeightNode
 	for i := 0; i < len(r.rss); i++ {
 		w := r.rss[i]
@@ -73,7 +74,6 @@ func (r *WeightRoundRobinBalance) Next() string {
 	if best == nil {
 		return ""
 	}
-
 	best.curweight -= total
 	return best.addr
 }
@@ -83,13 +83,13 @@ func (r *WeightRoundRobinBalance) SetConf(conf config.LoadBalanceConf) {
 }
 
 func (r *WeightRoundRobinBalance) Update() {
-	if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
-		fmt.Println("WeightRoundRobinBalance get conf : ", conf.GetConf())
-		r.rss = nil
-		for _, ip := range conf.GetConf() {
-			r.Add(strings.Split(ip, ",")...)
-		}
-	}
+	// if conf, ok := r.conf.(*config.LoadBalanceZkConf); ok {
+	// 	fmt.Println("WeightRoundRobinBalance get conf : ", conf.GetConf())
+	// 	r.rss = nil
+	// 	for _, ip := range conf.GetConf() {
+	// 		r.Add(strings.Split(ip, ",")...)
+	// 	}
+	// }
 	if conf, ok := r.conf.(*config.LoadBalanceZkCheckConf); ok {
 		fmt.Println("WeightRoundRobinBalance get conf : ", conf.GetConf())
 		r.rss = nil

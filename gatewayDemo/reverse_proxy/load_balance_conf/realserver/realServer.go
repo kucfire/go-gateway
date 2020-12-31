@@ -39,6 +39,8 @@ func (rs *RealServer) Run() {
 	mux.HandleFunc("/", rs.HelloFunc)
 	mux.HandleFunc("/base/error", rs.ErrorFunc)
 
+	mux.HandleFunc("/test_http_string/aaa", rs.TimeoutErrorFunc)
+
 	server := &http.Server{
 		Addr:         rs.Addr,
 		WriteTimeout: 3 * time.Second,
@@ -68,22 +70,30 @@ func (rs *RealServer) Run() {
 }
 
 // HelloFunc : func of server
-func (rs RealServer) HelloFunc(w http.ResponseWriter, r *http.Request) {
+func (rs *RealServer) HelloFunc(w http.ResponseWriter, r *http.Request) {
 	upath := fmt.Sprintf("http://%s%s\n", rs.Addr, r.URL.Path)
-	// realIP := fmt.Sprintf(
-	// 	"RemoteAddr=%s,X-Forwarded-For=%v,x-Real-Ip=%v\n",
-	// 	r.RemoteAddr,
-	// 	r.Header.Get("X-Forwarded-For"),
-	// 	r.Header.Get("X-Real-Ip"),
-	// )
-	// header := fmt.Sprintf("headers =%v\n", r.Header)
+	realIP := fmt.Sprintf(
+		"RemoteAddr=%s,X-Forwarded-For=%v,x-Real-Ip=%v\n",
+		r.RemoteAddr,
+		r.Header.Get("X-Forwarded-For"),
+		r.Header.Get("X-Real-Ip"),
+	)
+	header := fmt.Sprintf("headers =%v\n", r.Header)
 	io.WriteString(w, upath)
-	// io.WriteString(w, realIP)
-	// io.WriteString(w, header)
+	io.WriteString(w, realIP)
+	io.WriteString(w, header)
 }
 
 // ErrorFunc : error handle
-func (rs RealServer) ErrorFunc(w http.ResponseWriter, r *http.Request) {
+func (rs *RealServer) ErrorFunc(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(6 * time.Second)
+	upath := "timeout handler"
+	w.WriteHeader(200)
+	io.WriteString(w, upath)
+}
+
+// TimeoutErrorFunc : timeout error handle
+func (rs *RealServer) TimeoutErrorFunc(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(6 * time.Second)
 	upath := "timeout handler"
 	w.WriteHeader(200)
