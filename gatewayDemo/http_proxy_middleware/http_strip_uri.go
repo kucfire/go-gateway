@@ -1,8 +1,10 @@
 package http_proxy_middleware
 
 import (
+	"fmt"
 	"gatewayDemo/dao"
 	"gatewayDemo/middleware"
+	"regexp"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +12,7 @@ import (
 )
 
 // 匹配接入方式 给予请求信息
-func HTTPHeaderTransferModeMiddleware() gin.HandlerFunc {
+func HTTPURLRewriteModeMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		sInterface, ok := c.Get("serviceDetail")
 		if !ok {
@@ -19,18 +21,20 @@ func HTTPHeaderTransferModeMiddleware() gin.HandlerFunc {
 			return
 		}
 		serviceDetail := sInterface.(*dao.ServiceDetail)
-		for _, item := range strings.Split(serviceDetail.HTTPRule.HeaderTransfor, ",") {
+
+		for _, item := range strings.Split(serviceDetail.HTTPRule.URLRewrite, ",") {
 			items := strings.Split(item, " ")
-			if len(items) != 3 {
+			if len(items) != 2 {
 				continue
 			}
-			if items[0] == "add" || items[0] == "edit" {
-				c.Request.Header.Set(items[1], items[2])
-			}
 
-			if items[0] == "del" {
-				c.Request.Header.Del(items[1])
+			regexp, err := regexp.Compile(items[0])
+			if err != nil {
+				fmt.Println("regexp.Compile err : ", err)
+				continue
 			}
+			replacePath := regexp.ReplaceAll([]byte(c.Request.URL.Path), []byte(items[1]))
+			c.Request.URL.Path = string(replacePath)
 		}
 
 		c.Next()

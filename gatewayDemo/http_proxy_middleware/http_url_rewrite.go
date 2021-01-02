@@ -3,6 +3,7 @@ package http_proxy_middleware
 import (
 	"gatewayDemo/dao"
 	"gatewayDemo/middleware"
+	"gatewayDemo/public"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,7 @@ import (
 )
 
 // 匹配接入方式 给予请求信息
-func HTTPHeaderTransferModeMiddleware() gin.HandlerFunc {
+func HTTPStripURIModeMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		sInterface, ok := c.Get("serviceDetail")
 		if !ok {
@@ -19,18 +20,11 @@ func HTTPHeaderTransferModeMiddleware() gin.HandlerFunc {
 			return
 		}
 		serviceDetail := sInterface.(*dao.ServiceDetail)
-		for _, item := range strings.Split(serviceDetail.HTTPRule.HeaderTransfor, ",") {
-			items := strings.Split(item, " ")
-			if len(items) != 3 {
-				continue
-			}
-			if items[0] == "add" || items[0] == "edit" {
-				c.Request.Header.Set(items[1], items[2])
-			}
 
-			if items[0] == "del" {
-				c.Request.Header.Del(items[1])
-			}
+		// http://127.0.0.1:8080/http_test_string/aaa
+		// http://127.0.0.1:2003/aaa
+		if serviceDetail.HTTPRule.RuleType == public.HTTPRuleTypePrefixURL && serviceDetail.HTTPRule.NeedStripURI == 1 {
+			c.Request.URL.Path = strings.Replace(c.Request.URL.Path, serviceDetail.HTTPRule.Rule, "", 1)
 		}
 
 		c.Next()

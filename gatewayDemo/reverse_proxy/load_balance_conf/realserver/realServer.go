@@ -39,7 +39,7 @@ func (rs *RealServer) Run() {
 	mux.HandleFunc("/", rs.HelloFunc)
 	mux.HandleFunc("/base/error", rs.ErrorFunc)
 
-	mux.HandleFunc("/test_http_string/aaa", rs.TimeoutErrorFunc)
+	// mux.HandleFunc("/test_http_string/aaa", rs.TimeoutErrorFunc)
 
 	server := &http.Server{
 		Addr:         rs.Addr,
