@@ -1,11 +1,11 @@
 package http_proxy_router
 
 import (
+	"gatewayDemo/http_proxy_middleware"
+
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-
-	"gatewayDemo/http_proxy_middleware"
 )
 
 func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
@@ -23,6 +23,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(
 		http_proxy_middleware.HTTPAccessModeMiddleware(),
 		http_proxy_middleware.HTTPFLowCountModeMiddleware(),
+		http_proxy_middleware.HTTPFLowLimitModeMiddleware(),
 		http_proxy_middleware.HTTPWhiteListModeMiddleware(),
 		http_proxy_middleware.HTTPBlackListModeMiddleware(),
 		http_proxy_middleware.HTTPHeaderTransferModeMiddleware(),
