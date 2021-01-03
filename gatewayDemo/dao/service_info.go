@@ -74,8 +74,13 @@ func (t *ServiceInfo) GroupByLoadType(c *gin.Context, tx *gorm.DB) ([]dto.DashSe
 }
 
 func (t *ServiceInfo) ServiceDetail(c *gin.Context, tx *gorm.DB, search *ServiceInfo) (*ServiceDetail, error) {
+	search, err := search.Find(c, tx, search)
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+
 	httpRule := &ServiceHTTPRule{ServiceID: search.ID}
-	httpRule, err := httpRule.Find(c, tx, httpRule)
+	httpRule, err = httpRule.Find(c, tx, httpRule)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

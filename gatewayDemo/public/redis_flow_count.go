@@ -18,7 +18,7 @@ type RedisFlowCountService struct {
 	TotalCount  int64
 }
 
-func NewRedisFlowCountService(appID string, interval time.Duration) (*RedisFlowCountService, error) {
+func NewRedisFlowCountService(appID string, interval time.Duration) *RedisFlowCountService {
 	reqCounter := &RedisFlowCountService{
 		AppID:    appID,
 		Interval: interval,
@@ -70,7 +70,7 @@ func NewRedisFlowCountService(appID string, interval time.Duration) (*RedisFlowC
 			}
 		}
 	}()
-	return reqCounter, nil
+	return reqCounter
 }
 
 //原子增加
