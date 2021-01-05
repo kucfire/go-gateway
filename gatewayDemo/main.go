@@ -62,6 +62,7 @@ func main() {
 		defer lib.Destroy()
 		// 服务启动时直接加载
 		dao.ServiceManagerHandler.LoadOnce()
+		dao.AppManagerHandler.LoadOnce()
 		// if err := dao.ServiceManagerHandler.LoadOnce(); err != nil {
 		// 	panic(err)
 		// }

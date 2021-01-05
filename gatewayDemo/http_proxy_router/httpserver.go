@@ -20,7 +20,8 @@ var (
 )
 
 func HttpServerRun() {
-	gin.SetMode(lib.ConfBase.DebugMode)
+	// gin.SetMode(lib.ConfBase.DebugMode)
+	gin.SetMode(lib.GetStringConf("proxy.base.debug_mode"))
 	r := InitRouter(
 		middleware.RecoveryMiddleware(),
 		middleware.RequestLog())

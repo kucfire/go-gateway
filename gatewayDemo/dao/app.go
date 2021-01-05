@@ -3,8 +3,11 @@ package dao
 import (
 	"gatewayDemo/dto"
 	"gatewayDemo/public"
+	"net/http/httptest"
+	"sync"
 	"time"
 
+	"github.com/e421083458/golang_common/lib"
 	"github.com/e421083458/gorm"
 	"github.com/gin-gonic/gin"
 )
@@ -67,4 +70,90 @@ func (ad *AppInfo) PageList(c *gin.Context,
 	query.Limit(param.PageSize).Offset(offset).Count(&total)
 
 	return list, total, nil
+}
+
+var AppManagerHandler *AppManager
+
+func init() {
+	AppManagerHandler = NewAppManager()
+}
+
+type AppManager struct {
+	AppMap   map[string]*AppInfo
+	AppSlice []*AppInfo
+	Locker   sync.RWMutex
+	init     sync.Once
+	errMsg   error
+}
+
+func NewAppManager() *AppManager {
+	return &AppManager{
+		AppMap:   map[string]*AppInfo{},
+		AppSlice: []*AppInfo{},
+		Locker:   sync.RWMutex{},
+		init:     sync.Once{},
+	}
+}
+
+func (s *AppManager) LoadOnce() error {
+	s.init.Do(func() {
+		appInfo := &AppInfo{}
+
+		// 设置*gin.context
+		c, _ := gin.CreateTestContext(httptest.NewRecorder())
+
+		// 连接池
+		tx, err := lib.GetGormPool("default")
+		if err != nil {
+			s.errMsg = err
+			return
+		}
+
+		// 从DB中分页读取基本信息
+		// 取出所有数据
+		params := &dto.AppListInput{
+			PageSize: 99999,
+			PageNo:   1,
+		}
+		list, _, err := appInfo.PageList(c, tx, params)
+		if err != nil {
+			s.errMsg = err
+			return
+		}
+
+		// 遍历整个结果列表
+		s.Locker.Lock()
+		defer s.Locker.Unlock()
+		for _, listItem := range list {
+			tmp := listItem
+			s.AppMap[listItem.Name] = &tmp
+			s.AppSlice = append(s.AppSlice, &tmp)
+		}
+	})
+	return s.errMsg
+}
+
+func (s *AppManager) GetAppList() ([]AppInfo, error) {
+	appInfo := &AppInfo{}
+
+	// 设置*gin.context
+	c, _ := gin.CreateTestContext(httptest.NewRecorder())
+
+	// 连接池
+	tx, err := lib.GetGormPool("default")
+	if err != nil {
+		s.errMsg = err
+		return
+	}
+
+	params := &dto.AppListInput{
+		PageSize: 99999,
+		PageNo:   1,
+	}
+	list, _, err := appInfo.PageList(c, tx, params)
+	if err != nil {
+		s.errMsg = err
+		return
+	}
+	return list, nil
 }

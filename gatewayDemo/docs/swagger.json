@@ -576,6 +576,53 @@
                 }
             }
         },
+        "/oauth/tokens": {
+            "post": {
+                "description": "获取Token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token接口"
+                ],
+                "summary": "获取Token",
+                "operationId": "/oauth/tokens",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TokensInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.TokensOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/service/service_add_grpc": {
             "post": {
                 "description": "添加GRPC服务",
@@ -1956,6 +2003,40 @@
                 },
                 "white_list": {
                     "description": "白名单ip",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TokensInput": {
+            "type": "object",
+            "required": [
+                "grant_type",
+                "scope"
+            ],
+            "properties": {
+                "grant_type": {
+                    "type": "string",
+                    "example": "client_credentials"
+                },
+                "scope": {
+                    "type": "string",
+                    "example": "read_write"
+                }
+            }
+        },
+        "dto.TokensOutput": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires": {
+                    "type": "integer"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "token_type": {
                     "type": "string"
                 }
             }

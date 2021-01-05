@@ -172,6 +172,7 @@ func (t *Transportor) GetTransportor(service *ServiceDetail) (*http.Transport, e
 		}
 	}
 
+	// TODO : 优化点五
 	if service.LoadBalance.UpstreamHeaderTimeout == 0 {
 		service.LoadBalance.UpstreamHeaderTimeout = 30
 	}

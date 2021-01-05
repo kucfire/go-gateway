@@ -331,8 +331,7 @@ definitions:
         description: 客户端ip限流
         type: integer
       header_transfor:
-        description: header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue
-          多个逗号间隔
+        description: header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue 多个逗号间隔
         type: string
       ip_list:
         description: ip列表
@@ -561,8 +560,7 @@ definitions:
         description: 客户端ip限流
         type: integer
       header_transfor:
-        description: header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue
-          多个逗号间隔
+        description: header转换支持增加(add)、删除(del)、修改(edit) 格式：add headname headvalue 多个逗号间隔
         type: string
       id:
         description: ID
@@ -704,6 +702,29 @@ definitions:
     - serbice_desc
     - service_name
     - weight_list
+    type: object
+  dto.TokensInput:
+    properties:
+      grant_type:
+        example: client_credentials
+        type: string
+      scope:
+        example: read_write
+        type: string
+    required:
+    - grant_type
+    - scope
+    type: object
+  dto.TokensOutput:
+    properties:
+      access_token:
+        type: string
+      expires:
+        type: integer
+      scope:
+        type: string
+      token_type:
+        type: string
     type: object
   middleware.Response:
     properties:
@@ -1062,6 +1083,34 @@ paths:
       summary: 服务统计
       tags:
       - 大盘rest
+  /oauth/tokens:
+    post:
+      consumes:
+      - application/json
+      description: 获取Token
+      operationId: /oauth/tokens
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TokensInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.TokensOutput'
+              type: object
+      summary: 获取Token
+      tags:
+      - Token接口
   /service/service_add_grpc:
     post:
       consumes:

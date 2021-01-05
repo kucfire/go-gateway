@@ -74,6 +74,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			"message": "pong",
 		})
 	})
+	// 获取swagger相关的API文档
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	adminLoginRouter := router.Group("/admin_login")
