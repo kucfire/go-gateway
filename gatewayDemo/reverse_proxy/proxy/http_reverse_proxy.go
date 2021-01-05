@@ -30,6 +30,7 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb config.LoadBalance, transport
 	//请求协调者
 	director := func(req *http.Request) {
 		nextAddr, err := lb.Get(req.URL.String())
+		// TODO ： 优化点3 注释掉对应的打印操作，节省io开销
 		// fmt.Println(req.URL.String())
 		// fmt.Println(nextAddr)
 		if err != nil {
@@ -64,6 +65,8 @@ func NewLoadBalanceReverseProxy(c *gin.Context, lb config.LoadBalance, transport
 		if strings.Contains(resp.Header.Get("Connection"), "Upgrade") {
 			return nil
 		}
+
+		// TODO ： 优化点2 压测时不需要进行更改操作
 		// var payload []byte
 		// payload, err := ioutil.ReadAll(resp.Body)
 		// var readErr error

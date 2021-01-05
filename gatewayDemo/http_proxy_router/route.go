@@ -10,7 +10,9 @@ import (
 
 func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
-	router := gin.Default()
+	// TODO : 优化1 Default会打印对应的请求输出,会消耗一些性能IO，New不会，相应的可以
+	// router := gin.Default()
+	router := gin.New()
 	router.Use(middlewares...)
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

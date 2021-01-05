@@ -46,12 +46,12 @@ func HTTPFLowLimitModeMiddleware() gin.HandlerFunc {
 				public.FlowServicePrefix+serviceDetail.Info.ServiceName+"_"+c.ClientIP(),
 				float64(serviceDetail.AccessControl.ClientIPFlowLimit))
 			if err != nil {
-				middleware.ResponseError(c, 5001, err)
+				middleware.ResponseError(c, 5003, err)
 				c.Abort()
 				return
 			}
 			if !clientLimit.Allow() {
-				middleware.ResponseError(c, 5002, errors.New(fmt.Sprintf("client ip flow limit %v", serviceDetail.AccessControl.ClientIPFlowLimit)))
+				middleware.ResponseError(c, 5004, errors.New(fmt.Sprintf("client ip:%v flow limit %v", c.ClientIP(), serviceDetail.AccessControl.ClientIPFlowLimit)))
 				c.Abort()
 				return
 			}

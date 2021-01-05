@@ -17,7 +17,7 @@
 [log]
     log_level = "trace"         #日志打印最低级别
     [log.file_writer]           #文件写入配置
-        on = true
+        on = false               #压力测试时需要关闭，不然会影响io性能
         log_path = "./logs/gatewaydemo.inf.log"
         rotate_log_path = "./logs/gatewaydemo.inf.log.%Y%M%D%H"
         wf_log_path = "./logs/gatewaydemo.wf.log"

@@ -172,13 +172,30 @@ func (t *Transportor) GetTransportor(service *ServiceDetail) (*http.Transport, e
 		}
 	}
 
+	if service.LoadBalance.UpstreamHeaderTimeout == 0 {
+		service.LoadBalance.UpstreamHeaderTimeout = 30
+	}
+	if service.LoadBalance.UpstreamIdleTimeout == 0 {
+		service.LoadBalance.UpstreamIdleTimeout = 90
+	}
+	if service.LoadBalance.UpstreamConnectTimeout == 0 {
+		service.LoadBalance.UpstreamConnectTimeout = 30
+	}
+	if service.LoadBalance.UpstreamMaxIdle == 0 {
+		service.LoadBalance.UpstreamMaxIdle = 100
+	}
+
 	trans := &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
 		DialContext: (&net.Dialer{
-			Timeout: time.Duration(service.LoadBalance.UpstreamConnectTimeout) * time.Second, //连接超时
-			// KeepAlive: 30 * time.Second,	//长连接超时时间
+			Timeout:   time.Duration(service.LoadBalance.UpstreamConnectTimeout) * time.Second, //连接超时
+			KeepAlive: 30 * time.Second,                                                        //长连接超时时间
+			DualStack: true,
 		}).DialContext,
+		ForceAttemptHTTP2:     true,
 		MaxIdleConns:          service.LoadBalance.UpstreamMaxIdle,                                  //最大空闲连接
 		IdleConnTimeout:       time.Duration(service.LoadBalance.UpstreamIdleTimeout) * time.Second, //空闲超时时间
+		TLSHandshakeTimeout:   10 * time.Second,
 		ResponseHeaderTimeout: time.Duration(service.LoadBalance.UpstreamHeaderTimeout) * time.Second,
 	}
 	transItem := &TransportItem{
