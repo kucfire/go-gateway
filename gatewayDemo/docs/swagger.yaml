@@ -213,6 +213,14 @@ definitions:
       name:
         description: 服务名称
         type: string
+      qpd:
+        description: 服务名称
+        example: 0
+        type: integer
+      qps:
+        description: 服务名称
+        example: 0
+        type: integer
       secret:
         description: 服务名称
         type: string

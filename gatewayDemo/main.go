@@ -61,11 +61,14 @@ func main() {
 		lib.InitModule(*conf, []string{"base", "mysql", "redis"})
 		defer lib.Destroy()
 		// 服务启动时直接加载
-		dao.ServiceManagerHandler.LoadOnce()
-		dao.AppManagerHandler.LoadOnce()
-		// if err := dao.ServiceManagerHandler.LoadOnce(); err != nil {
-		// 	panic(err)
-		// }
+		// dao.ServiceManagerHandler.LoadOnce()
+		// dao.AppManagerHandler.LoadOnce()
+		if err := dao.ServiceManagerHandler.LoadOnce(); err != nil {
+			panic(err)
+		}
+		if err := dao.AppManagerHandler.LoadOnce(); err != nil {
+			panic(err)
+		}
 
 		go func() {
 			http_proxy_router.HttpServerRun()

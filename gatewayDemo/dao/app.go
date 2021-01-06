@@ -98,7 +98,6 @@ func NewAppManager() *AppManager {
 func (s *AppManager) LoadOnce() error {
 	s.init.Do(func() {
 		appInfo := &AppInfo{}
-
 		// 设置*gin.context
 		c, _ := gin.CreateTestContext(httptest.NewRecorder())
 
@@ -120,6 +119,10 @@ func (s *AppManager) LoadOnce() error {
 			s.errMsg = err
 			return
 		}
+		// list := s.GetAppList(c)
+		// if list == nil {
+		// 	return
+		// }
 
 		// 遍历整个结果列表
 		s.Locker.Lock()
@@ -133,27 +136,47 @@ func (s *AppManager) LoadOnce() error {
 	return s.errMsg
 }
 
-func (s *AppManager) GetAppList() ([]AppInfo, error) {
-	appInfo := &AppInfo{}
-
-	// 设置*gin.context
-	c, _ := gin.CreateTestContext(httptest.NewRecorder())
-
-	// 连接池
-	tx, err := lib.GetGormPool("default")
-	if err != nil {
-		s.errMsg = err
-		return
-	}
-
-	params := &dto.AppListInput{
-		PageSize: 99999,
-		PageNo:   1,
-	}
-	list, _, err := appInfo.PageList(c, tx, params)
-	if err != nil {
-		s.errMsg = err
-		return
-	}
-	return list, nil
+func (s *AppManager) GetAppList() []*AppInfo {
+	return s.AppSlice
 }
+
+// func (s *AppManager) GetAppList(c *gin.Context) []AppInfo {
+// 	appInfo := &AppInfo{}
+// 	// 连接池
+// 	tx, err := lib.GetGormPool("default")
+// 	if err != nil {
+// 		s.errMsg = err
+// 		return nil
+// 	}
+
+// 	// 从DB中分页读取基本信息
+// 	// 取出所有数据
+// 	params := &dto.AppListInput{
+// 		PageSize: 99999,
+// 		PageNo:   1,
+// 	}
+// 	list, _, err := appInfo.PageList(c, tx, params)
+// 	if err != nil {
+// 		s.errMsg = err
+// 		return nil
+// 	}
+
+// 	return list
+// }
+
+// func (s *AppManager) UpdateAppList(c *gin.Context) ([]*AppInfo, error) {
+// 	list := s.GetAppList(c)
+// 	if s.errMsg != nil {
+// 		return nil, s.errMsg
+// 	}
+
+// 	s.Locker.Lock()
+// 	defer s.Locker.Unlock()
+// 	for _, listItem := range list {
+// 		tmp := listItem
+// 		s.AppMap[listItem.Name] = &tmp
+// 		s.AppSlice = append(s.AppSlice, &tmp)
+// 	}
+
+// 	return s.AppSlice, nil
+// }

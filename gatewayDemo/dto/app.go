@@ -82,6 +82,10 @@ type AppUpdateInput struct {
 	Secret string `json:"secret" form:"secret" comment:"密钥" example:"" validate:""`
 	// 服务名称
 	WhiteIPS string `json:"white_ips" form:"white_ips" comment:"ip白名单，支持前缀匹配" example:"" validate:""`
+	// 服务名称
+	QPD int64 `json:"qpd" form:"qpd" comment:"日请求量限制" example:"0" validate:""`
+	// 服务名称
+	QPS int64 `json:"qps" form:"qps" comment:"每秒请求量限制" example:"0" validate:""`
 }
 
 func (params *AppUpdateInput) BindingValidParams(c *gin.Context) error {

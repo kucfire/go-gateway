@@ -212,6 +212,8 @@ func (adminligin *AppController) AppUpdate(c *gin.Context) {
 		WhiteIps:  params.WhiteIPS,
 		CreatedAt: appInfo.CreatedAt,
 		IsDelete:  appInfo.IsDelete,
+		QPD:       params.QPD,
+		QPS:       params.QPS,
 	}
 	if err := appUpdate.Save(c, tx); err != nil {
 		tx.Rollback()

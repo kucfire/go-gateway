@@ -1,7 +1,7 @@
 # This is proxy config
 
 [base]
-    debug_mode="release"
+    debug_mode="debug"
     time_location="Asia/Chongqing"
     
 [http]

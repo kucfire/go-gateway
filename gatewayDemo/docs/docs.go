@@ -1440,6 +1440,16 @@ var doc = `{
                     "description": "服务名称",
                     "type": "string"
                 },
+                "qpd": {
+                    "description": "服务名称",
+                    "type": "integer",
+                    "example": 0
+                },
+                "qps": {
+                    "description": "服务名称",
+                    "type": "integer",
+                    "example": 0
+                },
                 "secret": {
                     "description": "服务名称",
                     "type": "string"

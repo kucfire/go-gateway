@@ -2,10 +2,15 @@ package controller
 
 import (
 	"encoding/base64"
+	"gatewayDemo/dao"
 	"gatewayDemo/dto"
 	"gatewayDemo/middleware"
+	"gatewayDemo/public"
 	"strings"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
+	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
@@ -16,7 +21,6 @@ func OauthRegister(group *gin.RouterGroup) {
 	Oauth := &OauthController{}
 	// login interface
 	group.POST("/tokens", Oauth.Token)
-
 }
 
 // Token godoc
@@ -63,10 +67,30 @@ func (oauth *OauthController) Token(c *gin.Context) {
 		return
 	}
 	// fmt.Println("Authorization : ", parts) // 测试数据
-	appID := parts[0]
-	secret := parts[1]
+	// appID := parts[0]
+	// secret := parts[1]
+	appList := dao.AppManagerHandler.GetAppList()
+	for _, appInfo := range appList {
+		if appInfo.AppID == parts[0] && appInfo.Secret == parts[1] {
+			claims := jwt.StandardClaims{
+				Issuer:    appInfo.AppID,
+				ExpiresAt: time.Now().Add(public.JwtExpires * time.Second).In(lib.TimeLocation).Unix(),
+			}
+			token, err := public.JwtEncode(claims)
+			if err != nil {
+				middleware.ResponseError(c, 2004, err)
+				return
+			}
+			out := &dto.TokensOutput{
+				AccessToken: token,
+				Expires:     public.JwtExpires,
+				TokenType:   "Bearer",
+				Scope:       "read_write",
+			}
+			middleware.ResponseSuccess(c, out)
+			return
+		}
+	}
 
-	out := &dto.TokensOutput{}
-	middleware.ResponseSuccess(c, out)
-
+	middleware.ResponseError(c, 2005, errors.New("未匹配到正确的租户信息"))
 }

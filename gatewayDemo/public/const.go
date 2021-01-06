@@ -16,8 +16,11 @@ const (
 	RedisFlowHourKey = "flow_hour_count"
 
 	FlowTotalPrefix   = "flow_total"
-	FlowServicePrefix = "flow_Service"
-	FlowAppPrefix     = "flow_app"
+	FlowServicePrefix = "flow_Service_"
+	FlowAppPrefix     = "flow_app_"
+
+	JwtSignKey = "my_sign_key"
+	JwtExpires = 60 * 60
 )
 
 var (
