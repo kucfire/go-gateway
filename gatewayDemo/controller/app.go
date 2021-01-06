@@ -11,6 +11,8 @@ import (
 
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
+
+	"gatewayDemo/public"
 )
 
 type AppController struct{}
@@ -71,6 +73,12 @@ func (app *AppController) AppList(c *gin.Context) {
 	// 格式化基本信息
 	outList := []dto.AppListItemOutput{}
 	for _, listItem := range list {
+		appCounter, err := public.FlowCounterHandler.GetFlowCounter(public.FlowAppPrefix + listItem.AppID)
+		if err != nil {
+			middleware.ResponseError(c, 2003, err)
+			c.Abort()
+			return
+		}
 
 		outItem := dto.AppListItemOutput{
 			ID:       listItem.ID,
@@ -80,8 +88,8 @@ func (app *AppController) AppList(c *gin.Context) {
 			WhiteIPS: listItem.WhiteIps,
 			QPD:      listItem.QPD,
 			QPS:      listItem.QPS,
-			RealQPD:  0,
-			RealQPS:  0,
+			RealQPD:  appCounter.TotalCount,
+			RealQPS:  appCounter.QPS,
 		}
 		outList = append(outList, outItem)
 	}
@@ -324,36 +332,49 @@ func (service *AppController) AppDetail(c *gin.Context) {
 // @Router /app/app_stat [get]
 func (service *AppController) AppStat(c *gin.Context) {
 	// 由于只需要一个ID所以直接调用delete的输入结构即可
-	// params := &dto.ServiceDeleteInput{}
-	// if err := params.BindingValidParams(c); err != nil {
-	// 	// log.F  atal("params.BindingValidParams err : %v", err)
-	// 	middleware.ResponseError(c, 2000, err)
-	// 	return
-	// }
+	params := &dto.AppDeleteInput{}
+	if err := params.BindingValidParams(c); err != nil {
+		// log.F  atal("params.BindingValidParams err : %v", err)
+		middleware.ResponseError(c, 2000, err)
+		return
+	}
 
-	// // 连接池
-	// tx, err := lib.GetGormPool("default")
-	// if err != nil {
-	// 	middleware.ResponseError(c, 2001, err)
-	// 	return
-	// }
+	// 连接池
+	tx, err := lib.GetGormPool("default")
+	if err != nil {
+		middleware.ResponseError(c, 2001, err)
+		return
+	}
 
-	// // 从DB中读取基本信息
-	// serviceInfo := &dao.ServiceInfo{ID: params.ID}
-	// serviceInfo, err = serviceInfo.Find(c, tx, serviceInfo)
-	// if err != nil {
-	// 	middleware.ResponseError(c, 2002, err)
-	// 	return
-	// }
+	// 从DB中读取基本信息
+	appInfo := &dao.AppInfo{ID: params.ID}
+	appInfo, err = appInfo.Find(c, tx, appInfo)
+	if err != nil {
+		middleware.ResponseError(c, 2002, err)
+		return
+	}
+
+	appCounter, err := public.FlowCounterHandler.GetFlowCounter(public.FlowAppPrefix + appInfo.AppID)
+	if err != nil {
+		middleware.ResponseError(c, 2003, err)
+		return
+	}
 
 	TodayList := []int64{}
-	for i := 0; i < time.Now().Hour(); i++ {
-		TodayList = append(TodayList, 0)
+	currentTime := time.Now()
+	for i := 0; i <= currentTime.Hour(); i++ {
+		dateTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+		hourData, _ := appCounter.GetHourData(dateTime)
+		// fmt.Printf("%d  %v\n", i, hourData)
+		TodayList = append(TodayList, hourData)
 	}
 
 	YesterdayList := []int64{}
+	yesterdayTime := currentTime.Add(-1 * time.Duration(time.Hour*24))
 	for i := 0; i < 24; i++ {
-		YesterdayList = append(YesterdayList, 0)
+		dateTime := time.Date(yesterdayTime.Year(), yesterdayTime.Month(), yesterdayTime.Day(), i, 0, 0, 0, lib.TimeLocation)
+		hourData, _ := appCounter.GetHourData(dateTime)
+		YesterdayList = append(YesterdayList, hourData)
 	}
 
 	middleware.ResponseSuccess(c, &dto.ServiceStatOutput{

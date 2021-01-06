@@ -55,12 +55,12 @@
       </el-table-column>
       <el-table-column label="QPS" min-width="70px">
         <template slot-scope="{ row }">
-          <span>{{ row.qps }}</span>
+          <span>{{ row.real_qps }}/{{ row.qps }}</span>
         </template>
       </el-table-column>
       <el-table-column label="日请求数" min-width="70px">
         <template slot-scope="{ row }">
-          <span>{{ row.qpd }}</span>
+          <span>{{ row.real_qpd }}/{{ row.qpd }}</span>
         </template>
       </el-table-column>
       <el-table-column

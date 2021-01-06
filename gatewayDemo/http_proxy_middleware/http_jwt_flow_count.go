@@ -21,7 +21,7 @@ func HTTPJwtFLowCountModeMiddleware() gin.HandlerFunc {
 		// }
 		// serviceDetail := sInterface.(*dao.ServiceDetail)
 
-		appInterface, ok := c.Get("appDetail")
+		appInterface, ok := c.Get("appInfo")
 		if !ok {
 			middleware.ResponseError(c, 4000, errors.New("AppInfo is not find"))
 			c.Abort()
