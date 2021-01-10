@@ -11,6 +11,8 @@ import (
 	"gatewayDemo/http_proxy_router"
 	"gatewayDemo/router"
 
+	"gatewayDemo/tcp_proxy_router"
+
 	"github.com/e421083458/golang_common/lib"
 )
 
@@ -70,6 +72,7 @@ func main() {
 			panic(err)
 		}
 
+		// 启动http服务器
 		go func() {
 			http_proxy_router.HttpServerRun()
 		}()
@@ -77,24 +80,17 @@ func main() {
 			http_proxy_router.HttpsServerRun()
 		}()
 
+		// 启动tcp服务器
+		go func() {
+			tcp_proxy_router.TCPServerRun()
+		}()
+
 		quit := make(chan os.Signal)
 		signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 		<-quit
 
+		tcp_proxy_router.TCPServerStop()
 		http_proxy_router.HttpServerStop()
 		http_proxy_router.HttpsServerStop()
 	}
 }
-
-// func main() {
-// 	// 如果configPath为空，则从命令行中‘-config=。/conf/prod/‘中读取。
-// 	lib.InitModule("./conf/dev/", []string{"base", "mysql", "redis"})
-// 	defer lib.Destroy()
-// 	router.HttpServerRun()
-
-// 	quit := make(chan os.Signal)
-// 	signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
-// 	<-quit
-
-// 	router.HttpServerStop()
-// }

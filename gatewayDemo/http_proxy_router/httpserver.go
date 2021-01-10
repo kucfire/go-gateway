@@ -34,7 +34,7 @@ func HttpServerRun() {
 	}
 
 	log.Printf(" [INFO] http_proxy_run:%s\n", lib.GetStringConf("proxy.http.addr"))
-	if err := HttpSrvHandler.ListenAndServe(); err != nil {
+	if err := HttpSrvHandler.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf(" [ERROR] http_proxy_run:%s err:%v\n", lib.GetStringConf("proxy.http.addr"), err)
 	}
 }
@@ -45,7 +45,8 @@ func HttpServerStop() {
 	if err := HttpSrvHandler.Shutdown(ctx); err != nil {
 		log.Fatalf(" [ERROR] http_proxy_stop err:%v\n", err)
 	}
-	log.Printf(" [INFO] http_proxy_stop stopped\n")
+	log.Printf(" [INFO] http_proxy_stop %v stopped\n",
+		lib.GetStringConf("proxy.http.addr"))
 }
 
 func HttpsServerRun() {
@@ -63,7 +64,7 @@ func HttpsServerRun() {
 	}
 
 	log.Printf(" [INFO] https_proxy_run:%s\n", lib.GetStringConf("proxy.https.addr"))
-	if err := HttpsSrvHandler.ListenAndServeTLS(tlstest.Path("server.crt"), tlstest.Path("server.key")); err != nil {
+	if err := HttpsSrvHandler.ListenAndServeTLS(tlstest.Path("server.crt"), tlstest.Path("server.key")); err != nil && err != http.ErrServerClosed {
 		log.Fatalf(" [ERROR] https_proxy_run:%s err:%v\n",
 			lib.GetStringConf("proxy.https.addr"),
 			err)
@@ -76,5 +77,6 @@ func HttpsServerStop() {
 	if err := HttpsSrvHandler.Shutdown(ctx); err != nil {
 		log.Fatalf(" [ERROR] https_proxy_stop err:%v\n", err)
 	}
-	log.Printf(" [INFO] https_proxy_stop stopped\n")
+	log.Printf(" [INFO] https_proxy_stop %v stopped\n",
+		lib.GetStringConf("proxy.https.addr"))
 }

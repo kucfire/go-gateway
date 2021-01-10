@@ -31,7 +31,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(
 		//
 		http_proxy_middleware.HTTPAccessModeMiddleware(),
-		//
+		// 统计层
 		http_proxy_middleware.HTTPFLowCountModeMiddleware(),
 		http_proxy_middleware.HTTPFLowLimitModeMiddleware(),
 		// 权限校验

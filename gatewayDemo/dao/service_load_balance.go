@@ -98,8 +98,11 @@ func (lbr *LoadBalancer) GetLoadBalance(service *ServiceDetail) (config.LoadBala
 
 	// 判断协议是否需要添加加密协议
 	schema := "http://"
-	if service.HTTPRule.NeedHTTPS == 1 {
+	if service.HTTPRule != nil && service.HTTPRule.NeedHTTPS == 1 {
 		schema = "https://"
+	}
+	if service.Info.LoadType == public.LoadTypeTCP || service.Info.LoadType == public.LoadTypeGRPC {
+		schema = ""
 	}
 
 	// prefix := ""

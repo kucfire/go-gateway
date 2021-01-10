@@ -924,6 +924,7 @@ func (adminligin *ServiceController) ServiceUpdateTCP(c *gin.Context) {
 	params := &dto.ServiceUpdateTCPInput{}
 	if err := params.BindingValidParams(c); err != nil {
 		// log.F  atal("params.BindingValidParams err : %v", err)
+		fmt.Println(params)
 		middleware.ResponseError(c, 2000, err)
 		return
 	}
