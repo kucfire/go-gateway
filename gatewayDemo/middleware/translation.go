@@ -102,6 +102,19 @@ func TranslationMiddleware() gin.HandlerFunc {
 				}
 				return true
 			})
+			// 验证方法：dto.ServiceAddGRPCInput.IPList
+			val.RegisterValidation("valid_forbid_list", func(fl validator.FieldLevel) bool {
+				// return fl.Field().String() == "admin"
+				if fl.Field().String() == "" {
+					return true
+				}
+				for _, ms := range strings.Split(fl.Field().String(), ",") {
+					if matched, _ := regexp.Match(`^\S+\:\d+$`, []byte(ms)); !matched {
+						return false
+					}
+				}
+				return true
+			})
 			// 验证方法：dto.ServiceAddHTTPInput.WeightList
 			val.RegisterValidation("valid_weight_list", func(fl validator.FieldLevel) bool {
 				// return fl.Field().String() == "admin"
@@ -180,6 +193,13 @@ func TranslationMiddleware() gin.HandlerFunc {
 				return ut.Add("vaild_white_ips", "{0} 不符合输入格式", true)
 			}, func(ut ut.Translator, fe validator.FieldError) string {
 				t, _ := ut.T("vaild_white_ips", fe.Field())
+				return t
+			})
+			// 验证器：dto.AppInfo.WhiteIPS
+			val.RegisterTranslation("valid_forbid_list", trans, func(ut ut.Translator) error {
+				return ut.Add("valid_forbid_list", "{0} 不符合输入格式", true)
+			}, func(ut ut.Translator, fe validator.FieldError) string {
+				t, _ := ut.T("valid_forbid_list", fe.Field())
 				return t
 			})
 

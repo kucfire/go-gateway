@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"gatewayDemo/dao"
+	"gatewayDemo/grpc_proxy_router"
 	"gatewayDemo/http_proxy_router"
 	"gatewayDemo/router"
 
@@ -85,6 +86,11 @@ func main() {
 			tcp_proxy_router.TCPServerRun()
 		}()
 
+		// 启动grpc代理服务器
+		go func() {
+			grpc_proxy_router.GRPCServerRun()
+		}()
+
 		quit := make(chan os.Signal)
 		signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 		<-quit
@@ -92,5 +98,6 @@ func main() {
 		tcp_proxy_router.TCPServerStop()
 		http_proxy_router.HttpServerStop()
 		http_proxy_router.HttpsServerStop()
+		grpc_proxy_router.GRPCServerStop()
 	}
 }

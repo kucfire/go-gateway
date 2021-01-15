@@ -27,7 +27,6 @@ func TCPServerRun() {
 	TCPServiceList := dao.ServiceManagerHandler.GetTCPServiceList()
 	for _, Item := range TCPServiceList {
 		tempItem := Item
-		log.Printf(" [INFO] tcp_proxy_run:%d\n", tempItem.TCPRule.Port)
 		// 开启TCP服务器
 		go func(serviceDetail *dao.ServiceDetail) {
 			addr := ":" + strconv.Itoa(serviceDetail.TCPRule.Port)
@@ -64,6 +63,7 @@ func TCPServerRun() {
 				BaseCtx: baseCtx,
 			}
 			tcpServerList = append(tcpServerList, tcpServer)
+			log.Printf(" [INFO] tcp_proxy_run %v\n", addr)
 			if err := tcpServer.ListenAndServe(); err != nil && err != tcp_server.ErrServerClosed {
 				log.Fatalf(" [ERROR] tcp_proxy_run:%s err:%v\n", addr, err)
 			}

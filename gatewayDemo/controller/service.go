@@ -747,6 +747,7 @@ func (adminligin *ServiceController) ServiceUpdateGRPC(c *gin.Context) {
 	grpcRule := serviceDetail.GRPCRule
 	grpcRule.Port = params.Port
 	grpcRule.HeaderTransfor = params.HeaderTransfor
+	// fmt.Println(params.HeaderTransfor)
 	if err := grpcRule.Save(c, tx); err != nil {
 		tx.Rollback()
 		middleware.ResponseError(c, 2006, err)

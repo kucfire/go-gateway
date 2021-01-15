@@ -19,10 +19,12 @@ require (
 	github.com/go-playground/universal-translator v0.17.0
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
-	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
+	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/sessions v1.2.1 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.1 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
@@ -30,7 +32,8 @@ require (
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6 // indirect
-	github.com/mitchellh/mapstructure v1.4.0 // indirect
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/mwitkow/grpc-proxy v0.0.0-20181017164139-0f1106ef9c76
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/samuel/go-zookeeper v0.0.0-20201211165307-7117e9ea2414
@@ -40,19 +43,20 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1 // indirect
+	github.com/stretchr/testify v1.7.0
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.0
-	github.com/ugorji/go v1.2.2 // indirect
+	github.com/ugorji/go v1.2.3 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	golang.org/x/mod v0.4.0 // indirect
-	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
-	golang.org/x/sys v0.0.0-20210110051926-789bb1bd4061 // indirect
+	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
+	golang.org/x/sys v0.0.0-20210113131315-ba0562f347e0 // indirect
 	golang.org/x/text v0.3.5 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
-	golang.org/x/tools v0.0.0-20210108195828-e2f9c7f1fc8e // indirect
-	google.golang.org/genproto v0.0.0-20210108203827-ffc7fda8c3d7 // indirect
-	google.golang.org/grpc v1.34.0 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
+	golang.org/x/tools v0.0.0-20210112230658-8b4aab62c064 // indirect
+	google.golang.org/genproto v0.0.0-20210111234610-22ae2b108f89
+	google.golang.org/grpc v1.34.1
+	google.golang.org/protobuf v1.25.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0
 	gopkg.in/ini.v1 v1.62.0 // indirect

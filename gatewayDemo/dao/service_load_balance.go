@@ -120,6 +120,7 @@ func (lbr *LoadBalancer) GetLoadBalance(service *ServiceDetail) (config.LoadBala
 	// fmt.Println(ipconf)
 
 	// zk设置
+	fmt.Println(ipconf)
 	mconf, err := config.NewLoadBalanceZkCheckConf( // "http://%s/base",
 		fmt.Sprintf("%s%s", schema, "%s"), ipconf)
 	if err != nil {
