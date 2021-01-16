@@ -5,3 +5,6 @@
 
 # 忽略log
 gatewayDemo/logs/
+
+# 忽略dist
+gatewayDemo/dist/

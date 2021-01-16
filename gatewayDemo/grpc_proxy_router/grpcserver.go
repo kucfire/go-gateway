@@ -62,7 +62,7 @@ func GRPCServerRun() {
 
 			grpcServerList = append(grpcServerList, &warpGRPCServer{Addr: addr, Server: s})
 			log.Printf("[INFO] grpc_proxy_run %v\n", addr)
-			if err := s.Serve(lis); err != nil {
+			if err := s.Serve(lis); err != nil && err != grpc.ErrServerStopped {
 				log.Fatalf(" [ERROR] grpc_proxy_run : %s err : %v\n", addr, err)
 			}
 		}(tempItem)

@@ -170,5 +170,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	// {
 	// 	controller.ApiLoginRegister(apiAuthGroup)
 	// }
+
+	router.Static("/dist", "./dist")
 	return router
 }
