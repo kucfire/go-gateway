@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: go-gateteway-dashboard
-          image: go-gateteway-dashboard
+          image: go-gateteway-dashboard:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8880
@@ -32,4 +32,4 @@ spec:
       nodePort: 30088
   type: NodePort
   selector:
-    name: dockerfile_dashboard
+    name: go-gateteway-dashboard
