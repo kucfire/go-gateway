@@ -68,7 +68,7 @@
       <div style="position: relative">
         <div class="tips">
           <span>Username : admin</span>
-          <span>Password : 123456</span>
+          <span>Password : admin</span>
         </div>
       </div>
     </el-form>
